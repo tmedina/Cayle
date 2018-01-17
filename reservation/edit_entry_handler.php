@@ -24,13 +24,13 @@ include "mrbs_auth.inc";
 include "mrbs_sql.inc";
 include ("../reservation/themes/default.inc");
 
-
 // Get form variables
 $day = get_form_var('day', 'int');
 $month = get_form_var('month', 'int');
 $year = get_form_var('year', 'int');
 $area = get_form_var('area', 'int');
 $room = get_form_var('room', 'int');
+$room_id = get_form_var('room_id', 'int');
 $create_by = get_form_var('create_by', 'string');
 $name = get_form_var('name', 'string');
 $rep_type = get_form_var('rep_type', 'int');
@@ -59,7 +59,7 @@ $event_type = get_form_var('event_type', 'int');
 $dur_units = get_form_var('dur_units', 'string');
 $all_day = get_form_var('all_day', 'string'); // bool, actually
 $type = get_form_var('type', 'string');
-$rooms = get_form_var('rooms', 'array');
+$rooms = isset($room_id) ? array($room_id) : get_form_var('rooms', 'array');
 $returl = get_form_var('returl', 'string');
 $rep_id = get_form_var('rep_id', 'int');
 $edit_type = get_form_var('edit_type', 'string');
@@ -113,8 +113,7 @@ if (empty($area))
 //       direct, perhaps if the user has it set as a bookmark
 //   (2) Avoid an endless loop.   It shouldn't happen, but just in case ...
 //   (3) If you've come from search, you probably don't want to go back there (and if you did we'd
-//       have to preserve the search parameter in the query string)
-$returl_base   = explode('?', basename($returl));
+//       have to preserve the search parameter in the query string) $returl_base   = explode('?', basename($returl));
 if (empty($returl) || ($returl_base[0] == "edit_entry.php") || ($returl_base[0] == "edit_entry_handler.php")
                    || ($returl_base[0] == "search.php"))
 {
@@ -136,7 +135,9 @@ else
 }
 
 // Now construct the new query string
+//print("Year: ".$year." Month: ".$month." Day: ".$day." returl: ".$returl);
 $returl .= "?year=$year&month=$month&day=$day";
+//print($returl);
 
 // If the old sticky room is one of the rooms requested for booking, then don't change the sticky room.
 // Otherwise change the sticky room to be one of the new rooms.
@@ -593,7 +594,9 @@ if (empty($err))
   if (isset($id))
   {
       // send user to the view page
-      header("Location: view_entry.php?id=$url_reservation_id");
+
+  //print("Location: view_entry.php?id=$url_reservation_id&year=$year&month=$month&day=$day");
+      header("Location: view_entry.php?id=$url_reservation_id&year=$year&month=$month&day=$day");
   }
   else
   {
@@ -602,7 +605,7 @@ if (empty($err))
 	   *		If event_type > 0, (not a Rehearsal) set name as option contents
 	   *		and bypass add_person.php
 	   */
-      $return_url = "../reservation/view_entry.php?id=$url_reservation_id";
+      $return_url = "../reservation/view_entry.php?id=$url_reservation_id&year=$year&month=$month&day=$day";
 		header("Location: ../person_band/add_person.php?reservation_id=$url_reservation_id
 			&repeat_id=$url_repeat_id&return_url=$return_url&event_type=$event_type");
   }
@@ -632,9 +635,8 @@ if (strlen($err))
     echo "</ul>\n";
   }
 }
-
 echo "<p>\n";
-echo "<a href=\"" . htmlspecialchars($returl) . "\">" . get_vocab("returncal") . "</a>\n";
+echo "<a href=\"" . htmlspecialchars("day.php".$returl) . "\">" . get_vocab("returncal") . "</a>\n";
 echo "</p>\n";
 
 //include "trailer.inc";

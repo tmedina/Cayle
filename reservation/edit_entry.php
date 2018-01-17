@@ -538,6 +538,15 @@ $room_names = sql_query1("SELECT room_name FROM $tbl_room WHERE id=$room_id");
 -->
 
 <!-- BEGIN ENTRY FORM -->
+    <div id="room_picker">
+	    <label>Room:</label>
+		<select id="room_id" name="room_id" >
+		<option <?php echo $room_names=="Room 7" ? "selected='true'" :  ""; ?> value="1">Room 7</option>
+		<option <?php echo $room_names=="Room 8" ? "selected='true'" :  ""; ?> value="2">Room 8</option>
+		<option <?php echo $room_names=="Room 9" ? "selected='true'" :  ""; ?> value="3">Room 9</option>
+		<option <?php echo $room_names=="Room 10" ? "selected='true'" :  ""; ?> value="4">Room 10</option>
+		</select>
+	</div><!--end "event_type" div-->
     <div id="event_picker">
 	    <label>Event Type:</label>
 		<select id="event_type" name="event_type" >
@@ -969,8 +978,10 @@ $room_names = sql_query1("SELECT room_name FROM $tbl_room WHERE id=$room_id");
     <input type="hidden" name="rooms" value="<?php echo $room_id?>">
     <input type="hidden" name="reservation_status" value="<?php echo $reservation_status?>">
     <input type="hidden" name="is_pending" value="<?php echo $is_pending?>">
+    <input type="hidden" name="day" value="<?php echo $_GET['day']?>">
+    <input type="hidden" name="month" value="<?php echo $_GET['month']?>">
+    <input type="hidden" name="year" value="<?php echo '2018'?>">
 
-    
     <?php if(isset($id) && !isset($copy)) echo "<input type=\"hidden\" name=\"id\"        value=\"$id\">\n";
     ?>
   </fieldset>
