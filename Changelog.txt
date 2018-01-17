@@ -1,0 +1,17 @@
+Changelog
+
+	8/1/09 -- Terrance Medina
+		made changes to report, total hrs all rooms
+
+	12/17/09 -- Terrance Medina
+		removed several items to deleteBuf on desktop
+			in folder w/today's date
+		changed stylesheets for person_band and view_person_band
+			#search_box now displays below #dropdown
+			to avoid them running together b/c of long names
+
+	08/14/10 -- Terrance Medina
+		 -- added event_type field to reservation_entry table of DB
+		 -- added new person_status, 5 = event
+		 -- modified reservation entry form to include event type (Rehearsal or Special Event)
+		 -- completely rewrote total usage by room report

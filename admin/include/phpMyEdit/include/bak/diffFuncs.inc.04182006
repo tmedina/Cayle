@@ -1,0 +1,3506 @@
+<?
+
+####################
+#  Sizes of each
+#  type of structure
+#
+$structSize = array( 945,        # udrsp v1.0
+                     1394,       # udr v1.0 (pipe) [change udr v1.0 non-pipe also]
+                     1630,       # udr v2.0 (pipe) [change udr v2.0 non-pipe also]
+                     200,        # CALCDR
+                     300,        # DATCDR
+                     300,        # SMSCDR
+                     1394,       # udr v1.0  [change in sync with v1.0 pipe]
+                     1630,       # udr v2.0  [change in sync with v2.0 pipe]
+                     1242,       # udrsp v2.0
+                     1259,       # udrch
+                     250,        # CALCDR 2
+                     190,        # Cingular Fixed
+                     567         # Ciber Type 22
+                     );          #
+
+##############################
+#  Debug flag
+#  (used to turn on verbose
+#  data dumping)
+#  
+$debug = 0;
+
+#################
+#  UDRSP Struct
+#
+$udrspStruct = array( array( 'udrsp_type_id', 5, 'AN' ),
+                      array( 'udrsp_creation_datetime', 12, 'AN' ),
+                      array( 'udrsp_air_amount', 11, 'AN' ),
+                      array( 'udrsp_air_local_tax', 11, 'AN' ),
+                      array( 'udrsp_air_state_tax', 11, 'AN' ),
+                      array( 'udrsp_air_rate_period', 2, 'AN' ),
+                      array( 'udrsp_apn_network_info', 20, 'AN' ),
+                      array( 'udrsp_apn_operator_info', 20, 'AN' ),
+                      array( 'udrsp_apn_selection_mode', 20, 'AN' ),
+                      array( 'udrsp_billed_eid', 12, 'AN' ),
+                      array( 'udrsp_billed_esn', 15, 'AN' ),
+                      array( 'udrsp_billed_imei', 15, 'AN' ),
+                      array( 'udrsp_billed_imsi', 15, 'AN' ),
+                      array( 'udrsp_billed_mdn_msisd', 10, 'AN' ),
+                      array( 'udrsp_billed_min', 10, 'AN' ),
+                      array( 'udrsp_billed_celltower', 10, 'AN' ),
+                      array( 'udrsp_call_end_reason', 2, 'AN' ),
+                      array( 'udrsp_call_identifier_block', 10, 'AN' ),
+                      array( 'udrsp_call_identifier_rcd_cnt', 5, 'AN' ),
+                      array( 'udrsp_called_ton', 6, 'AN' ),
+                      array( 'udrsp_caller_id', 10, 'AN' ),
+                      array( 'udrsp_caller_id_block', 1, 'AN' ),
+                      array( 'udrsp_charge_in_packets', 10, 'AN' ),
+                      array( 'udrsp_charge_in_units', 10, 'AN' ),
+                      array( 'udrsp_charge_out_packets', 10, 'AN' ),
+                      array( 'udrsp_charge_out_units', 10, 'AN' ),
+                      array( 'udrsp_charge_packets', 10, 'AN' ),
+                      array( 'udrsp_charging_characteristics', 1, 'AN' ),
+                      array( 'udrsp_charging_info', 15, 'AN' ),
+                      array( 'udrsp_ciber_type', 2, 'AN' ),
+                      array( 'udrsp_coord_h', 5, 'AN' ),
+                      array( 'udrsp_coord_v', 5, 'AN' ),
+                      array( 'udrsp_currency', 2, 'AN' ),
+                      array( 'udrsp_datetime_end', 16, 'AN' ),
+                      array( 'udrsp_datetime_connect', 16, 'AN' ),
+                      array( 'udrsp_datetime_ring', 16, 'AN' ),
+                      array( 'udrsp_datetime_start', 16, 'AN' ),
+                      array( 'udrsp_daylight_sav', 1, 'AN' ),
+                      array( 'udrsp_description', 30, 'AN' ),
+                      array( 'udrsp_discard_in_units', 9, 'AN' ),
+                      array( 'udrsp_discard_out_units', 9, 'AN' ),
+                      array( 'udrsp_dst_city', 10, 'AN' ),
+                      array( 'udrsp_dst_country', 4, 'AN' ),
+                      array( 'udrsp_dst_dialed', 32, 'AN' ),
+                      array( 'udrsp_dst_imsi', 15, 'AN' ),
+                      array( 'udrsp_dst_lrn', 10, 'AN' ),
+                      array( 'udrsp_dst_mdn', 10, 'AN' ),
+                      array( 'udrsp_dst_min', 10, 'AN' ),
+                      array( 'udrsp_dst_state', 2, 'AN' ),
+                      array( 'udrsp_duration', 8, 'AN' ),
+                      array( 'udrsp_duration_ring', 8, 'AN' ),
+                      array( 'udrsp_duration_connect', 8, 'AN' ),
+                      array( 'udrsp_duration_unit', 2, 'AN' ),
+                      array( 'udrsp_billed_market', 3, 'AN' ),
+                      array( 'udrsp_market_npa', 6, 'AN' ),
+                      array( 'udrsp_event', 3, 'AN' ),
+                      array( 'udrsp_file_reference', 11, 'AN' ),
+                      array( 'udrsp_ggsn_address_used', 20, 'AN' ),
+                      array( 'udrsp_home_pmn', 5, 'AN' ),
+                      array( 'udrsp_home_rmr_rerate', 1, 'AN' ),
+                      array( 'udrsp_home_sid', 5, 'AN' ),
+                      array( 'udrsp_interconnect', 2, 'AN' ),
+                      array( 'udrsp_interconnect_amount', 11, 'AN' ),
+                      array( 'udrsp_interconnect_flag', 1, 'AN' ),
+                      array( 'udrsp_interconnect_toll', 1, 'AN' ),
+                      array( 'udrsp_jip', 10, 'AN' ),
+                      array( 'udrsp_ld_route', 10, 'AN' ),
+                      array( 'udrsp_local_rec_seq_num', 9, 'AN' ),
+                      array( 'udrsp_message_length', 7, 'AN' ),
+                      array( 'udrsp_toll_mileage', 5, 'AN' ),
+                      array( 'udrsp_ms_network_capability', 2, 'AN' ),
+                      array( 'udrsp_network_initiation', 2, 'AN' ),
+                      array( 'udrsp_no_air_flag', 1, 'AN' ),
+                      array( 'udrsp_other_amount', 11, 'AN' ),
+                      array( 'udrsp_other_local_tax', 11, 'AN' ),
+                      array( 'udrsp_other_state_tax', 11, 'AN' ),
+                      array( 'udrsp_price', 11, 'AN' ),
+                      array( 'udrsp_rate_center', 5, 'AN' ),
+                      array( 'udrsp_served_market', 3, 'AN' ),
+                      array( 'udrsp_served_pmn', 5, 'AN' ),
+                      array( 'udrsp_served_sid', 5, 'AN' ),
+                      array( 'udrsp_served_pdp_addr', 20, 'AN' ),
+                      array( 'udrsp_service_feature', 2, 'AN' ),
+                      array( 'udrsp_service_sub_feature', 4, 'AN' ),
+                      array( 'udrsp_src_city', 10, 'AN' ),
+                      array( 'udrsp_src_country', 4, 'AN' ),
+                      array( 'udrsp_src_infra_hw_info', 20, 'AN' ),
+                      array( 'udrsp_src_lrn', 10, 'AN' ),
+                      array( 'udrsp_src_npa_nxx', 6, 'AN' ),
+                      array( 'udrsp_src_state', 2, 'AN' ),
+                      array( 'udrsp_surcharge_amount', 11, 'AN' ),
+                      array( 'udrsp_surcharge_info', 2, 'AN' ),
+                      array( 'udrsp_surcharge_misc_amount', 11, 'AN' ),
+                      array( 'udrsp_surcharge_misc_info', 2, 'AN' ),
+                      array( 'udrsp_switch_file_batch', 20, 'AN' ),
+                      array( 'udrsp_switch_file', 10, 'AN' ),
+                      array( 'udrsp_timezone_incr_done', 1, 'AN' ),
+                      array( 'udrsp_tldn', 10, 'AN' ),
+                      array( 'udrsp_toll_amount', 11, 'AN' ),
+                      array( 'udrsp_toll_carrier', 5, 'AN' ),
+                      array( 'udrsp_toll_local_tax', 11, 'AN' ),
+                      array( 'udrsp_toll_multi_rate', 1, 'AN' ),
+                      array( 'udrsp_toll_period', 2, 'AN' ),
+                      array( 'udrsp_toll_spec_type', 2, 'AN' ),
+                      array( 'udrsp_toll_state_tax', 11, 'AN' ),
+                      array( 'udrsp_toll_tarif', 2, 'AN' ),
+                      array( 'udrsp_toll_tax', 1, 'AN' ),
+                      array( 'udrsp_toll_wide_area', 3, 'AN' ),
+                      array( 'udrsp_trunk_group_incoming', 10, 'AN' ),
+                      array( 'udrsp_trunk_group_outgoing', 10, 'AN' ),
+                      array( 'udrsp_wnp_dip_charge_info', 4, 'AN' ),
+                      array( 'udrsp_wnp_dip_charge_ind', 1, 'AN' ),
+                      array( 'udrsp_world_timezone', 2, 'AN' ),
+                      array( 'udrsp_zero_ld_chg_flag', 1, 'AN' ),
+                      array( 'newline', 1, 'AN' ) );
+
+#################
+#  UDRSP Struct
+#
+$udrsp2Struct = array( array( 'udrsp_type_id', 5, 'AN' ),
+                       array( 'udrsp_phase_0_datetime', 14, 'AN' ),
+                       array( 'udrsp_phase_0_result', 16, 'AN' ),
+                       array( 'udrsp_phase_0_status', 2, 'AN' ),
+                       array( 'udrsp_phase_3_status', 2, 'AN' ),
+                       array( 'udrsp_creator', 15, 'AN' ),
+                       array( 'udrsp_creation_datetime', 12, 'AN' ),
+                       array( 'udrsp_air_amount', 11, 'AN' ),
+                       array( 'udrsp_air_local_tax', 11, 'AN' ),
+                       array( 'udrsp_air_state_tax', 11, 'AN' ),
+                       array( 'udrsp_air_rate_period', 2, 'AN' ),
+                       array( 'udrsp_apn_network_info', 20, 'AN' ),
+                       array( 'udrsp_apn_operator_info', 20, 'AN' ),
+                       array( 'udrsp_apn_selection_mode', 20, 'AN' ),
+                       array( 'udrsp_billed_eid', 12, 'AN' ),
+                       array( 'udrsp_billed_esn', 15, 'AN' ),
+                       array( 'udrsp_billed_imei', 15, 'AN' ),
+                       array( 'udrsp_billed_imsi', 15, 'AN' ),
+                       array( 'udrsp_billed_mdn_msisd', 16, 'AN' ),
+                       array( 'udrsp_billed_esn_meid', 20, 'AN' ),
+                       array( 'udrsp_billed_meid_chk_digit', 2, 'AN' ),
+                       array( 'udrsp_billed_min', 10, 'AN' ),
+                       array( 'udrsp_billed_sim', 20, 'AN' ),
+                       array( 'udrsp_billed_celltower', 10, 'AN' ),
+                       array( 'udrsp_call_end_reason', 2, 'AN' ),
+                       array( 'udrsp_call_identifier_block', 10, 'AN' ),
+                       array( 'udrsp_call_identifier_rcd_cnt', 5, 'AN' ),
+                       array( 'udrsp_called_ton', 6, 'AN' ),
+                       array( 'udrsp_caller_id', 16, 'AN' ),
+                       array( 'udrsp_caller_id_block', 1, 'AN' ),
+                       array( 'udrsp_camel_service_key', 10, 'AN' ),
+                       array( 'udrsp_camel_service_level', 1, 'AN' ),
+                       array( 'udrsp_camel_dest_number', 32, 'AN' ),
+                       array( 'udrsp_camel_invocation_fee', 11, 'AN' ),
+                       array( 'udrsp_camel_tax', 11, 'AN' ),
+                       array( 'udrsp_change_condition', 1, 'AN' ),
+                       array( 'udrsp_change_time', 12, 'AN' ),
+                       array( 'udrsp_charge_in_packets', 10, 'AN' ),
+                       array( 'udrsp_charge_in_units', 10, 'AN' ),
+                       array( 'udrsp_charge_out_packets', 10, 'AN' ),
+                       array( 'udrsp_charge_out_units', 10, 'AN' ),
+                       array( 'udrsp_charge_packets', 10, 'AN' ),
+                       array( 'udrsp_charging_characteristics', 1, 'AN' ),
+                       array( 'udrsp_charging_info', 15, 'AN' ),
+                       array( 'udrsp_ciber_type', 2, 'AN' ),
+                       array( 'udrsp_coord_h', 5, 'AN' ),
+                       array( 'udrsp_coord_v', 5, 'AN' ),
+                       array( 'udrsp_currency', 2, 'AN' ),
+                       array( 'udrsp_datetime_end', 16, 'AN' ),
+                       array( 'udrsp_datetime_connect', 16, 'AN' ),
+                       array( 'udrsp_datetime_ring', 16, 'AN' ),
+                       array( 'udrsp_datetime_start', 16, 'AN' ),
+                       array( 'udrsp_daylight_sav', 1, 'AN' ),
+                       array( 'udrsp_description', 30, 'AN' ),
+                       array( 'udrsp_discard_in_units', 9, 'AN' ),
+                       array( 'udrsp_discard_out_units', 9, 'AN' ),
+                       array( 'udrsp_dst_city', 10, 'AN' ),
+                       array( 'udrsp_dst_country', 4, 'AN' ),
+                       array( 'udrsp_dst_country_numeric', 4, 'AN' ),
+                       array( 'udrsp_dst_dialed', 32, 'AN' ),
+                       array( 'udrsp_dst_imsi', 15, 'AN' ),
+                       array( 'udrsp_dst_lrn', 10, 'AN' ),
+                       array( 'udrsp_dst_mdn_msisd', 16, 'AN' ),
+                       array( 'udrsp_dst_min', 10, 'AN' ),
+                       array( 'udrsp_dst_state', 2, 'AN' ),
+                       array( 'udrsp_duration', 8, 'AN' ),
+                       array( 'udrsp_duration_ring', 8, 'AN' ),
+                       array( 'udrsp_duration_connect', 8, 'AN' ),
+                       array( 'udrsp_duration_unit', 2, 'AN' ),
+                       array( 'udrsp_billed_market', 3, 'AN' ),
+                       array( 'udrsp_market_npa', 6, 'AN' ),
+                       array( 'udrsp_event', 3, 'AN' ),
+                       array( 'udrsp_file_reference', 11, 'AN' ),
+                       array( 'udrsp_ggsn_address_used', 20, 'AN' ),
+                       array( 'udrsp_home_pmn', 5, 'AN' ),
+                       array( 'udrsp_home_rmr_rerate', 1, 'AN' ),
+                       array( 'udrsp_home_sid', 5, 'AN' ),
+                       array( 'udrsp_interconnect', 2, 'AN' ),
+                       array( 'udrsp_interconnect_amount', 11, 'AN' ),
+                       array( 'udrsp_interconnect_flag', 1, 'AN' ),
+                       array( 'udrsp_interconnect_toll', 1, 'AN' ),
+                       array( 'udrsp_jip', 10, 'AN' ),
+                       array( 'udrsp_ld_route', 10, 'AN' ),
+                       array( 'udrsp_local_rec_seq_num', 9, 'AN' ),
+                       array( 'udrsp_location_area_code', 3, 'AN' ),
+                       array( 'udrsp_message_length', 7, 'AN' ),
+                       array( 'udrsp_toll_mileage', 5, 'AN' ),
+                       array( 'udrsp_ms_network_capability', 2, 'AN' ),
+                       array( 'udrsp_network_initiation', 2, 'AN' ),
+                       array( 'udrsp_no_air_flag', 1, 'AN' ),
+                       array( 'udrsp_other_amount', 11, 'AN' ),
+                       array( 'udrsp_other_local_tax', 11, 'AN' ),
+                       array( 'udrsp_other_state_tax', 11, 'AN' ),
+                       array( 'udrsp_pdp_type', 20, 'AN' ),
+                       array( 'udrsp_pmn_test_active_ind', 1, 'AN' ),
+                       array( 'udrsp_price', 11, 'AN' ),
+                       array( 'udrsp_qos_neg_delay', 1, 'AN' ),
+                       array( 'udrsp_qos_neg_mean_throughput', 2, 'AN' ),
+                       array( 'udrsp_qos_neg_peak_throughput', 1, 'AN' ),
+                       array( 'udrsp_qos_neg_precedence', 1, 'AN' ),
+                       array( 'udrsp_qos_neg_reliability', 1, 'AN' ),
+                       array( 'udrsp_qos_req_delay', 1, 'AN' ),
+                       array( 'udrsp_qos_req_mean_throughput', 2, 'AN' ),
+                       array( 'udrsp_qos_req_peak_throughput', 1, 'AN' ),
+                       array( 'udrsp_qos_req_precedence', 1, 'AN' ),
+                       array( 'udrsp_qos_req_reliability', 1, 'AN' ),
+                       array( 'udrsp_rate_center', 5, 'AN' ),
+                       array( 'udrsp_rec_extensions', 15, 'AN' ),
+                       array( 'udrsp_rnc_unsent_downlink_vol', 10, 'AN' ),
+                       array( 'udrsp_routing_area', 10, 'AN' ),
+                       array( 'udrsp_served_market', 3, 'AN' ),
+                       array( 'udrsp_served_pdp_addr', 20, 'AN' ),
+                       array( 'udrsp_served_pmn', 5, 'AN' ),
+                       array( 'udrsp_served_sid', 5, 'AN' ),
+                       array( 'udrsp_service_feature', 2, 'AN' ),
+                       array( 'udrsp_service_sub_feature', 4, 'AN' ),
+                       array( 'udrsp_sgsn_address', 20, 'AN' ),
+                       array( 'udrsp_sgsn_change', 1, 'AN' ),
+                       array( 'udrsp_src_city', 10, 'AN' ),
+                       array( 'udrsp_src_country', 4, 'AN' ),
+                       array( 'udrsp_src_country_numeric', 4, 'AN' ),
+                       array( 'udrsp_src_infra_hw_info', 20, 'AN' ),
+                       array( 'udrsp_src_lrn', 10, 'AN' ),
+                       array( 'udrsp_src_npa_nxx', 6, 'AN' ),
+                       array( 'udrsp_src_state', 2, 'AN' ),
+                       array( 'udrsp_surcharge_amount', 11, 'AN' ),
+                       array( 'udrsp_surcharge_info', 2, 'AN' ),
+                       array( 'udrsp_surcharge_misc_amount', 11, 'AN' ),
+                       array( 'udrsp_surcharge_misc_info', 2, 'AN' ),
+                       array( 'udrsp_switch_file_batch', 20, 'AN' ),
+                       array( 'udrsp_switch_file', 10, 'AN' ),
+                       array( 'udrsp_timezone_incr_done', 1, 'AN' ),
+                       array( 'udrsp_tldn', 10, 'AN' ),
+                       array( 'udrsp_toll_amount', 11, 'AN' ),
+                       array( 'udrsp_toll_carrier', 5, 'AN' ),
+                       array( 'udrsp_toll_local_tax', 11, 'AN' ),
+                       array( 'udrsp_toll_multi_rate', 1, 'AN' ),
+                       array( 'udrsp_toll_period', 2, 'AN' ),
+                       array( 'udrsp_toll_spec_type', 2, 'AN' ),
+                       array( 'udrsp_toll_state_tax', 11, 'AN' ),
+                       array( 'udrsp_toll_tarif', 2, 'AN' ),
+                       array( 'udrsp_toll_tax', 1, 'AN' ),
+                       array( 'udrsp_toll_wide_area', 3, 'AN' ),
+                       array( 'udrsp_trunk_group_incoming', 10, 'AN' ),
+                       array( 'udrsp_trunk_group_outgoing', 10, 'AN' ),
+                       array( 'udrsp_wnp_dip_charge_info', 4, 'AN' ),
+                       array( 'udrsp_wnp_dip_charge_ind', 1, 'AN' ),
+                       array( 'udrsp_world_timezone', 2, 'AN' ),
+                       array( 'udrsp_zero_ld_chg_flag', 1, 'AN' ),
+                       array( 'udrsp_org_coord_h', 5, 'AN' ),
+                       array( 'udrsp_org_coord_v', 5, 'AN' ),
+                       array( 'newline', 1, 'AN' ) );
+
+##########################
+#  UDR Version 1.0 Struct
+#
+$udrStruct = array( array( 'udr_partittion_key', 5, 'AN' ),
+                    array( 'udr_phase_1_datetime', 12, 'AN' ),
+                    array( 'udr_phase_1_result', 2, 'AN' ),
+                    array( 'udr_phase_1_status', 1, 'AN' ),
+                    array( 'udr_phase_2_datetime', 12, 'AN' ),
+                    array( 'udr_phase_2_result', 2, 'AN' ),
+                    array( 'udr_phase_2_status', 1, 'AN' ),
+                    array( 'udr_phase_3_datetime', 12, 'AN' ),
+                    array( 'udr_phase_3_result', 2, 'AN' ),
+                    array( 'udr_phase_3_status', 1, 'AN' ),
+                    array( 'udr_visibility_date', 12, 'AN' ),
+                    array( 'udr_type_id', 5, 'AN' ),
+                    array( 'udr_record_type_id', 1, 'AN' ),
+                    array( 'udr_creator', 15, 'AN' ),
+                    array( 'udr_creation_datetime', 12, 'AN' ),
+                    array( 'udr_parent_id', 5, 'AN' ),
+                    array( 'udr_access_area', 10, 'AN' ),
+                    array( 'udr_account_authent', 10, 'AN' ),
+                    array( 'udr_account_authent_type', 5, 'AN' ),
+                    array( 'udr_account_id', 6, 'AN' ),
+                    array( 'udr_air_amount', 11, 'AN' ),
+                    array( 'udr_air_local_tax', 11, 'AN' ),
+                    array( 'udr_air_state_tax', 11, 'AN' ),
+                    array( 'udr_air_rate_period', 2, 'AN' ),
+                    array( 'udr_apn_network_info', 20, 'AN' ),
+                    array( 'udr_apn_operator_info', 20, 'AN' ),
+                    array( 'udr_apn_selection_mode', 20, 'AN' ),
+                    array( 'udr_billed_eid', 20, 'AN' ),
+                    array( 'udr_billed_esn', 15, 'AN' ),
+                    array( 'udr_billed_imei', 15, 'AN' ),
+                    array( 'udr_billed_imsi', 15, 'AN' ),
+                    array( 'udr_billed_mdn_msisd', 10, 'AN' ),
+                    array( 'udr_billed_min', 10, 'AN' ),
+                    array( 'udr_billed_celltower', 10, 'AN' ),
+                    array( 'udr_call_end_reason', 2, 'AN' ),
+                    array( 'udr_call_identifier_block', 10, 'AN' ),
+                    array( 'udr_call_identifier_rcd_cnt', 5, 'AN' ),
+                    array( 'udr_called_ton', 6, 'AN' ),
+                    array( 'udr_caller_id', 10, 'AN' ),
+                    array( 'udr_caller_id_block', 1, 'AN' ),
+                    array( 'udr_cbc_prefix', 3, 'AN' ),
+                    array( 'udr_change_condition', 1, 'AN' ),
+                    array( 'udr_change_time', 12, 'AN' ),
+                    array( 'udr_charge_in_packets', 10, 'AN' ),
+                    array( 'udr_charge_in_units', 10, 'AN' ),
+                    array( 'udr_charge_out_packets', 10, 'AN' ),
+                    array( 'udr_charge_out_units', 10, 'AN' ),
+                    array( 'udr_charge_packets', 10, 'AN' ),
+                    array( 'udr_charging_characteristics', 1, 'AN' ),
+                    array( 'udr_charging_info', 15, 'AN' ),
+                    array( 'udr_ciber_type', 2, 'AN' ),
+                    array( 'udr_conference_identifier', 1, 'AN' ),
+                    array( 'udr_coord_h', 5, 'AN' ),
+                    array( 'udr_coord_v', 5, 'AN' ),
+                    array( 'udr_currency', 2, 'AN' ),
+                    array( 'udr_datetime_end', 16, 'AN' ),
+                    array( 'udr_datetime_connect', 16, 'AN' ),
+                    array( 'udr_datetime_ring', 16, 'AN' ),
+                    array( 'udr_datetime_start', 16, 'AN' ),
+                    array( 'udr_daylight_sav', 1, 'AN' ),
+                    array( 'udr_description', 30, 'AN' ),
+                    array( 'udr_discard_in_units', 9, 'AN' ),
+                    array( 'udr_discard_out_units', 9, 'AN' ),
+                    array( 'udr_distribution_type_key', 1, 'AN' ),
+                    array( 'udr_dst_prefix', 3, 'AN' ),
+                    array( 'udr_dst_access_hw_info', 20, 'AN' ),
+                    array( 'udr_dst_city', 10, 'AN' ),
+                    array( 'udr_dst_country', 4, 'AN' ),
+                    array( 'udr_dst_dialed', 32, 'AN' ),
+                    array( 'udr_dst_info2', 21, 'AN' ),
+                    array( 'udr_dst_imsi', 15, 'AN' ),
+                    array( 'udr_dst_lrn', 10, 'AN' ),
+                    array( 'udr_dst_mdn', 10, 'AN' ),
+                    array( 'udr_dst_min', 10, 'AN' ),
+                    array( 'udr_dst_state', 2, 'AN' ),
+                    array( 'udr_dst_type', 2, 'AN' ),
+                    array( 'udr_duration', 8, 'AN' ),
+                    array( 'udr_duration_ring', 8, 'AN' ),
+                    array( 'udr_duration_connect', 8, 'AN' ),
+                    array( 'udr_duration_unit', 2, 'AN' ),
+                    array( 'udr_dyn_addr_flag', 1, 'AN' ),
+                    array( 'udr_billed_enode_id', 3, 'AN' ),
+                    array( 'udr_market_npa_nxx', 6, 'AN' ),
+                    array( 'udr_error_counter', 2, 'AN' ),
+                    array( 'udr_event', 3, 'AN' ),
+                    array( 'udr_file_reference', 11, 'AN' ),
+                    array( 'udr_ggsn_address_used', 20, 'AN' ),
+                    array( 'udr_home_pmn', 5, 'AN' ),
+                    array( 'udr_home_rmr_rerate', 1, 'AN' ),
+                    array( 'udr_home_sid', 5, 'AN' ),
+                    array( 'udr_interconnect', 2, 'AN' ),
+                    array( 'udr_interconnect_amount', 11, 'AN' ),
+                    array( 'udr_interconnect_flag', 1, 'AN' ),
+                    array( 'udr_interconnect_toll', 1, 'AN' ),
+                    array( 'udr_jip', 10, 'AN' ),
+                    array( 'udr_ld_route', 10, 'AN' ),
+                    array( 'udr_local_rec_seq_num', 9, 'AN' ),
+                    array( 'udr_message_length', 7, 'AN' ),
+                    array( 'udr_toll_mileage', 5, 'AN' ),
+                    array( 'udr_ms_network_capability', 2, 'AN' ),
+                    array( 'udr_network_initiation', 2, 'AN' ),
+                    array( 'udr_no_air_flag', 1, 'AN' ),
+                    array( 'udr_oc_batch', 20, 'AN' ),
+                    array( 'udr_oc_date', 12, 'AN' ),
+                    array( 'udr_oc_user', 30, 'AN' ),
+                    array( 'udr_other_amount', 11, 'AN' ),
+                    array( 'udr_other_local_tax', 11, 'AN' ),
+                    array( 'udr_other_state_tax', 11, 'AN' ),
+                    array( 'udr_pdp_type', 20, 'AN' ),
+                    array( 'udr_price', 11, 'AN' ),
+                    array( 'udr_ps_header_id', 6, 'AN' ),
+                    array( 'udr_qos_neg_delay', 1, 'AN' ),
+                    array( 'udr_qos_neg_mean_throughput', 2, 'AN' ),
+                    array( 'udr_qos_neg_peak_throughput', 1, 'AN' ),
+                    array( 'udr_qos_neg_precedence', 1, 'AN' ),
+                    array( 'udr_qos_neg_reliability', 1, 'AN' ),
+                    array( 'udr_qos_req_delay', 1, 'AN' ),
+                    array( 'udr_qos_req_mean_throughput', 2, 'AN' ),
+                    array( 'udr_qos_req_peak_throughput', 1, 'AN' ),
+                    array( 'udr_qos_req_precedence', 1, 'AN' ),
+                    array( 'udr_qos_req_reliability', 1, 'AN' ),
+                    array( 'udr_rate_center', 5, 'AN' ),
+                    array( 'udr_rec_extensions', 15, 'AN' ),
+                    array( 'udr_rnc_unsent_downlink_vol', 10, 'AN' ),
+                    array( 'udr_served_market', 3, 'AN' ),
+                    array( 'udr_served_pmn', 5, 'AN' ),
+                    array( 'udr_served_sid', 5, 'AN' ),
+                    array( 'udr_served_pdp_addr', 20, 'AN' ),
+                    array( 'udr_service_feature', 2, 'AN' ),
+                    array( 'udr_service_sub_feature', 4, 'AN' ),
+                    array( 'udr_sgsn_address', 20, 'AN' ),
+                    array( 'udr_sgsn_change', 1, 'AN' ),
+                    array( 'udr_shell_id', 6, 'AN' ),
+                    array( 'udr_shell_login_info', 6, 'AN' ),
+                    array( 'udr_src_access_hw_info', 20, 'AN' ),
+                    array( 'udr_src_city', 10, 'AN' ),
+                    array( 'udr_src_country', 4, 'AN' ),
+                    array( 'udr_src_info1', 10, 'AN' ),
+                    array( 'udr_src_infra_hw_info', 20, 'AN' ),
+                    array( 'udr_src_lrn', 10, 'AN' ),
+                    array( 'udr_src_npa_nxx', 6, 'AN' ),
+                    array( 'udr_src_state', 2, 'AN' ),
+                    array( 'udr_surcharge_amount', 11, 'AN' ),
+                    array( 'udr_surcharge_info', 2, 'AN' ),
+                    array( 'udr_surcharge_misc_amount', 11, 'AN' ),
+                    array( 'udr_surcharge_misc_info', 2, 'AN' ),
+                    array( 'udr_switch_file_batch', 20, 'AN' ),
+                    array( 'udr_switch_file', 10, 'AN' ),
+                    array( 'udr_system_type', 1, 'AN' ),
+                    array( 'udr_ticket_number', 10, 'AN' ),
+                    array( 'udr_ticket_number_child', 10, 'AN' ),
+                    array( 'udr_ticket_total_children', 10, 'AN' ),
+                    array( 'udr_timezone_incr_done', 1, 'AN' ),
+                    array( 'udr_tldn', 10, 'AN' ),
+                    array( 'udr_toll_amount', 11, 'AN' ),
+                    array( 'udr_toll_carrier', 5, 'AN' ),
+                    array( 'udr_toll_local_tax', 11, 'AN' ),
+                    array( 'udr_toll_multi_rate', 1, 'AN' ),
+                    array( 'udr_toll_period', 2, 'AN' ),
+                    array( 'udr_toll_spec_type', 2, 'AN' ),
+                    array( 'udr_toll_state_tax', 11, 'AN' ),
+                    array( 'udr_toll_tarif', 2, 'AN' ),
+                    array( 'udr_toll_tax', 1, 'AN' ),
+                    array( 'udr_toll_wide_area', 3, 'AN' ),
+                    array( 'udr_trunk_group_incoming', 10, 'AN' ),
+                    array( 'udr_trunk_group_outgoing', 10, 'AN' ),
+                    array( 'udr_wnp_dip_charge_info', 4, 'AN' ),
+                    array( 'udr_wnp_dip_charge_ind', 1, 'AN' ),
+                    array( 'udr_world_timezone', 2, 'AN' ),
+                    array( 'udr_zero_ld_chg_flag', 1, 'AN' ),
+                    array( 'udr_billing_group_id', 16, 'AN' ),
+                    array( 'udr_billing_period', 6, 'AN' ),
+                    array( 'udr_rerate_seq_id', 16, 'AN' ),
+                    array( 'udr_served_enode_key', 3, 'AN' ),
+                    array( 'newline', 1, 'AN' ) );
+
+
+#########################
+#  UDR Version 2.0 Struct
+#
+$udr2Struct = array( array( 'udr_partittion_key', 5, 'AN' ),
+                     array( 'udr_phase_0_datetime', 14, 'AN' ),
+                     array( 'udr_phase_0_result', 16, 'AN' ),
+                     array( 'udr_phase_0_status', 2, 'AN' ),
+                     array( 'udr_phase_1_datetime', 12, 'AN' ),
+                     array( 'udr_phase_1_result', 2, 'AN' ),
+                     array( 'udr_phase_1_status', 1, 'AN' ),
+                     array( 'udr_phase_2_datetime', 12, 'AN' ),
+                     array( 'udr_phase_2_result', 2, 'AN' ),
+                     array( 'udr_phase_2_status', 1, 'AN' ),
+                     array( 'udr_phase_3_datetime', 12, 'AN' ),
+                     array( 'udr_phase_3_result', 2, 'AN' ),
+                     array( 'udr_phase_3_status', 2, 'AN' ),
+                     array( 'udr_visibility_date', 12, 'AN' ),
+                     array( 'udr_type_id', 5, 'AN' ),
+                     array( 'udr_record_type_id', 1, 'AN' ),
+                     array( 'udr_creator', 15, 'AN' ),
+                     array( 'udr_creation_datetime', 12, 'AN' ),
+                     array( 'udr_parent_id', 5, 'AN' ),
+                     array( 'udr_access_area', 10, 'AN' ),
+                     array( 'udr_account_authent', 10, 'AN' ),
+                     array( 'udr_account_authent_type', 5, 'AN' ),
+                     array( 'udr_account_id', 6, 'AN' ),
+                     array( 'udr_air_amount', 11, 'AN' ),
+                     array( 'udr_air_local_tax', 11, 'AN' ),
+                     array( 'udr_air_rate_period', 2, 'AN' ),
+                     array( 'udr_air_state_tax', 11, 'AN' ),
+                     array( 'udr_apn_network_info', 20, 'AN' ),
+                     array( 'udr_apn_operator_info', 20, 'AN' ),
+                     array( 'udr_apn_selection_mode', 20, 'AN' ),
+                     array( 'udr_billed_celltower', 10, 'AN' ),
+                     array( 'udr_billed_eid', 20, 'AN' ),
+                     array( 'udr_billed_esn', 15, 'AN' ),
+                     array( 'udr_billed_imei', 15, 'AN' ),
+                     array( 'udr_billed_imsi', 15, 'AN' ),
+                     array( 'udr_billed_mdn_msisd', 16, 'AN' ),
+                     array( 'udr_billed_esn_meid', 20, 'AN' ),
+                     array( 'udr_billed_meid_chk_digit', 2, 'AN' ),
+                     array( 'udr_billed_min', 10, 'AN' ),
+                     array( 'udr_billed_sim', 20, 'AN' ),
+                     array( 'udr_billing_group_id', 16, 'AN' ),
+                     array( 'udr_billing_period', 6, 'AN' ),
+                     array( 'udr_billman_chrg_subtype_key', 6, 'AN' ),
+                     array( 'udr_call_end_reason', 2, 'AN' ),
+                     array( 'udr_call_identifier_block', 10, 'AN' ),
+                     array( 'udr_call_identifier_rcd_cnt', 5, 'AN' ),
+                     array( 'udr_called_ton', 6, 'AN' ),
+                     array( 'udr_caller_id', 16, 'AN' ),
+                     array( 'udr_caller_id_block', 1, 'AN' ),
+                     array( 'udr_camel_service_key', 10, 'AN' ),
+                     array( 'udr_camel_service_level', 1, 'AN' ),
+                     array( 'udr_camel_dest_number', 32, 'AN' ),
+                     array( 'udr_camel_invocation_fee', 11, 'AN' ),
+                     array( 'udr_camel_tax', 11, 'AN' ),
+                     array( 'udr_cbc_prefix', 3, 'AN' ),
+                     array( 'udr_change_condition', 1, 'AN' ),
+                     array( 'udr_change_time', 12, 'AN' ),
+                     array( 'udr_charge_in_packets', 10, 'AN' ),
+                     array( 'udr_charge_in_units', 10, 'AN' ),
+                     array( 'udr_charge_out_packets', 10, 'AN' ),
+                     array( 'udr_charge_out_units', 10, 'AN' ),
+                     array( 'udr_charge_packets', 10, 'AN' ),
+                     array( 'udr_charging_characteristics', 1, 'AN' ),
+                     array( 'udr_charging_info', 15, 'AN' ),
+                     array( 'udr_ciber_type', 2, 'AN' ),
+                     array( 'udr_conference_identifier', 1, 'AN' ),
+                     array( 'udr_coord_h', 5, 'AN' ),
+                     array( 'udr_coord_v', 5, 'AN' ),
+                     array( 'udr_currency', 2, 'AN' ),
+                     array( 'udr_datetime_end', 16, 'AN' ),
+                     array( 'udr_datetime_connect', 16, 'AN' ),
+                     array( 'udr_datetime_ring', 16, 'AN' ),
+                     array( 'udr_datetime_start', 16, 'AN' ),
+                     array( 'udr_daylight_sav', 1, 'AN' ),
+                     array( 'udr_description', 30, 'AN' ),
+                     array( 'udr_discard_in_units', 9, 'AN' ),
+                     array( 'udr_discard_out_units', 9, 'AN' ),
+                     array( 'udr_distribution_type_key', 1, 'AN' ),
+                     array( 'udr_dst_access_hw_info', 20, 'AN' ),
+                     array( 'udr_dst_city', 10, 'AN' ),
+                     array( 'udr_dst_country', 4, 'AN' ),
+                     array( 'udr_dst_country_numeric', 4, 'AN' ),
+                     array( 'udr_dst_dialed', 32, 'AN' ),
+                     array( 'udr_dst_info2', 21, 'AN' ),
+                     array( 'udr_dst_imsi', 15, 'AN' ),
+                     array( 'udr_dst_lrn', 10, 'AN' ),
+                     array( 'udr_dst_mdn_msisd', 16, 'AN' ),
+                     array( 'udr_dst_min', 10, 'AN' ),
+                     array( 'udr_dst_prefix', 10, 'AN' ),
+                     array( 'udr_dst_state', 2, 'AN' ),
+                     array( 'udr_dst_type', 2, 'AN' ),
+                     array( 'udr_duration', 8, 'AN' ),
+                     array( 'udr_duration_connect', 8, 'AN' ),
+                     array( 'udr_duration_ring', 8, 'AN' ),
+                     array( 'udr_duration_unit', 2, 'AN' ),
+                     array( 'udr_dyn_addr_flag', 1, 'AN' ),
+                     array( 'udr_billed_market', 3, 'AN' ),
+                     array( 'udr_market_npa_nxx', 6, 'AN' ),
+                     array( 'udr_error_counter', 2, 'AN' ),
+                     array( 'udr_event', 3, 'AN' ),
+                     array( 'udr_file_reference', 11, 'AN' ),
+                     array( 'udr_ggsn_address_used', 20, 'AN' ),
+                     array( 'udr_home_pmn', 5, 'AN' ),
+                     array( 'udr_home_rmr_rerate', 1, 'AN' ),
+                     array( 'udr_home_sid', 5, 'AN' ),
+                     array( 'udr_interconnect', 2, 'AN' ),
+                     array( 'udr_interconnect_amount', 11, 'AN' ),
+                     array( 'udr_interconnect_flag', 1, 'AN' ),
+                     array( 'udr_interconnect_toll', 1, 'AN' ),
+                     array( 'udr_jip', 10, 'AN' ),
+                     array( 'udr_ld_route', 10, 'AN' ),
+                     array( 'udr_local_rec_seq_num', 9, 'AN' ),
+                     array( 'udr_location_area_code', 3, 'AN' ),
+                     array( 'udr_message_length', 7, 'AN' ),
+                     array( 'udr_toll_mileage', 5, 'AN' ),
+                     array( 'udr_ms_network_capability', 2, 'AN' ),
+                     array( 'udr_network_initiation', 2, 'AN' ),
+                     array( 'udr_no_air_flag', 1, 'AN' ),
+                     array( 'udr_oc_batch', 16, 'AN' ),
+                     array( 'udr_oc_date', 16, 'AN' ),
+                     array( 'udr_oc_test_batch', 16, 'AN' ),
+                     array( 'udr_oc_user', 30, 'AN' ),
+                     array( 'udr_other_amount', 11, 'AN' ),
+                     array( 'udr_other_local_tax', 11, 'AN' ),
+                     array( 'udr_other_state_tax', 11, 'AN' ),
+                     array( 'udr_pdp_type', 20, 'AN' ),
+                     array( 'udr_pmn_test_active_ind', 1, 'AN' ),
+                     array( 'udr_price', 11, 'AN' ),
+                     array( 'udr_ps_header_id', 6, 'AN' ),
+                     array( 'udr_qos_neg_delay', 1, 'AN' ),
+                     array( 'udr_qos_neg_mean_throughput', 2, 'AN' ),
+                     array( 'udr_qos_neg_peak_throughput', 1, 'AN' ),
+                     array( 'udr_qos_neg_precedence', 1, 'AN' ),
+                     array( 'udr_qos_neg_reliability', 1, 'AN' ),
+                     array( 'udr_qos_req_delay', 1, 'AN' ),
+                     array( 'udr_qos_req_mean_throughput', 2, 'AN' ),
+                     array( 'udr_qos_req_peak_throughput', 1, 'AN' ),
+                     array( 'udr_qos_req_precedence', 1, 'AN' ),
+                     array( 'udr_qos_req_reliability', 1, 'AN' ),
+                     array( 'udr_rate_center', 5, 'AN' ),
+                     array( 'udr_rec_extensions', 15, 'AN' ),
+                     array( 'udr_rerate_seq_id', 16, 'AN' ),
+                     array( 'udr_rnc_unsent_downlink_vol', 10, 'AN' ),
+                     array( 'udr_routing_area', 10, 'AN' ),
+                     array( 'udr_rpa_run_id', 10, 'AN' ),
+                     array( 'udr_served_market', 3, 'AN' ),
+                     array( 'udr_served_pdp_addr', 20, 'AN' ),
+                     array( 'udr_served_pmn', 5, 'AN' ),
+                     array( 'udr_served_sid', 5, 'AN' ),
+                     array( 'udr_service_feature', 2, 'AN' ),
+                     array( 'udr_service_sub_feature', 4, 'AN' ),
+                     array( 'udr_sgsn_address', 20, 'AN' ),
+                     array( 'udr_sgsn_change', 1, 'AN' ),
+                     array( 'udr_shell_id', 6, 'AN' ),
+                     array( 'udr_shell_login_info', 6, 'AN' ),
+                     array( 'udr_src_access_hw_info', 20, 'AN' ),
+                     array( 'udr_src_city', 10, 'AN' ),
+                     array( 'udr_src_country', 4, 'AN' ),
+                     array( 'udr_src_country_numeric', 4, 'AN' ),
+                     array( 'udr_src_info1', 10, 'AN' ),
+                     array( 'udr_src_infra_hw_info', 20, 'AN' ),
+                     array( 'udr_src_lrn', 10, 'AN' ),
+                     array( 'udr_src_npa_nxx', 6, 'AN' ),
+                     array( 'udr_src_state', 2, 'AN' ),
+                     array( 'udr_surcharge_amount', 11, 'AN' ),
+                     array( 'udr_surcharge_info', 2, 'AN' ),
+                     array( 'udr_surcharge_misc_amount', 11, 'AN' ),
+                     array( 'udr_surcharge_misc_info', 2, 'AN' ),
+                     array( 'udr_switch_file_batch', 20, 'AN' ),
+                     array( 'udr_switch_file', 10, 'AN' ),
+                     array( 'udr_system_type', 1, 'AN' ),
+                     array( 'udr_ticket_number', 10, 'AN' ),
+                     array( 'udr_ticket_number_child', 10, 'AN' ),
+                     array( 'udr_ticket_total_children', 10, 'AN' ),
+                     array( 'udr_timezone_incr_done', 1, 'AN' ),
+                     array( 'udr_tldn', 10, 'AN' ),
+                     array( 'udr_toll_amount', 11, 'AN' ),
+                     array( 'udr_toll_carrier', 5, 'AN' ),
+                     array( 'udr_toll_local_tax', 11, 'AN' ),
+                     array( 'udr_toll_multi_rate', 1, 'AN' ),
+                     array( 'udr_toll_period', 2, 'AN' ),
+                     array( 'udr_toll_spec_type', 2, 'AN' ),
+                     array( 'udr_toll_state_tax', 11, 'AN' ),
+                     array( 'udr_toll_tarif', 2, 'AN' ),
+                     array( 'udr_toll_tax', 1, 'AN' ),
+                     array( 'udr_toll_wide_area', 3, 'AN' ),
+                     array( 'udr_trunk_group_incoming', 10, 'AN' ),
+                     array( 'udr_trunk_group_outgoing', 10, 'AN' ),
+                     array( 'udr_reset_binary_code', 10, 'AN' ),
+                     array( 'udr_wnp_dip_charge_info', 4, 'AN' ),
+                     array( 'udr_wnp_dip_charge_ind', 1, 'AN' ),
+                     array( 'udr_world_timezone', 2, 'AN' ),
+                     array( 'udr_zero_ld_chg_flag', 1, 'AN' ),
+                     array( 'udr_org_coord_h', 5, 'AN' ),
+                     array( 'udr_org_coord_v', 5, 'AN' ),
+                     array( 'newline', 1, 'AN' ) );
+
+
+############################
+#  UDRCH Structure
+$udrchStruct = array( array( 'udrch_partittion_key', 5, 'AN' ),
+                      array( 'udrch_phase_1_datetime', 12, 'AN' ),
+                      array( 'udrch_phase_1_result', 2, 'AN' ),
+                      array( 'udrch_phase_1_status', 1, 'AN' ),
+                      array( 'udrch_phase_2_datetime', 12, 'AN' ),
+                      array( 'udrch_phase_2_result', 2, 'AN' ),
+                      array( 'udrch_phase_2_status', 1, 'AN' ),
+                      array( 'udrch_phase_3_datetime', 12, 'AN' ),
+                      array( 'udrch_phase_3_result', 2, 'AN' ),
+                      array( 'udrch_phase_3_status', 1, 'AN' ),
+                      array( 'udrch_visibility_date', 12, 'AN' ),
+                      array( 'udrch_type_id', 5, 'AN' ),
+                      array( 'udrch_record_type_id', 1, 'AN' ),
+                      array( 'udrch_creator', 15, 'AN' ),
+                      array( 'udrch_creation_datetime', 12, 'AN' ),
+                      array( 'udrch_parent_id', 5, 'AN' ),
+                      array( 'udrch_access_area', 10, 'AN' ),
+                      array( 'udrch_account_authent', 10, 'AN' ),
+                      array( 'udrch_account_authent_type', 5, 'AN' ),
+                      array( 'udrch_account_id', 6, 'AN' ),
+                      array( 'udrch_air_amount', 11, 'AN' ),
+                      array( 'udrch_air_local_tax', 11, 'AN' ),
+                      array( 'udrch_air_state_tax', 11, 'AN' ),
+                      array( 'udrch_air_rate_period', 2, 'AN' ),
+                      array( 'udrch_apn_network_info', 20, 'AN' ),
+                      array( 'udrch_apn_operator_info', 20, 'AN' ),
+                      array( 'udrch_apn_selection_mode', 20, 'AN' ),
+                      array( 'udrch_billed_eid', 20, 'AN' ),
+                      array( 'udrch_billed_esn', 15, 'AN' ),
+                      array( 'udrch_billed_imei', 15, 'AN' ),
+                      array( 'udrch_billed_imsi', 15, 'AN' ),
+                      array( 'udrch_billed_mdn_msisd', 10, 'AN' ),
+                      array( 'udrch_billed_min', 10, 'AN' ),
+                      array( 'udrch_billed_celltower', 10, 'AN' ),
+                      array( 'udrch_call_end_reason', 2, 'AN' ),
+                      array( 'udrch_call_identifier_block', 10, 'AN' ),
+                      array( 'udrch_call_identifier_rcd_cnt', 5, 'AN' ),
+                      array( 'udrch_called_ton', 6, 'AN' ),
+                      array( 'udrch_caller_id', 10, 'AN' ),
+                      array( 'udrch_caller_id_block', 1, 'AN' ),
+                      array( 'udrch_cbc_prefix', 3, 'AN' ),
+                      array( 'udrch_change_condition', 1, 'AN' ),
+                      array( 'udrch_change_time', 12, 'AN' ),
+                      array( 'udrch_charge_in_packets', 10, 'AN' ),
+                      array( 'udrch_charge_in_units', 10, 'AN' ),
+                      array( 'udrch_charge_out_packets', 10, 'AN' ),
+                      array( 'udrch_charge_out_units', 10, 'AN' ),
+                      array( 'udrch_charge_packets', 10, 'AN' ),
+                      array( 'udrch_charging_characteristics', 1, 'AN' ),
+                      array( 'udrch_charging_info', 15, 'AN' ),
+                      array( 'udrch_ciber_type', 2, 'AN' ),
+                      array( 'udrch_conference_identifier', 1, 'AN' ),
+                      array( 'udrch_coord_h', 5, 'AN' ),
+                      array( 'udrch_coord_v', 5, 'AN' ),
+                      array( 'udrch_currency', 2, 'AN' ),
+                      array( 'udrch_datetime_end', 16, 'AN' ),
+                      array( 'udrch_datetime_connect', 16, 'AN' ),
+                      array( 'udrch_datetime_evento', 16, 'AN' ),
+                      array( 'udrch_datetime_start', 16, 'AN' ),
+                      array( 'udrch_daylight_sav', 1, 'AN' ),
+                      array( 'udrch_description', 30, 'AN' ),
+                      array( 'udrch_discard_in_units', 9, 'AN' ),
+                      array( 'udrch_discard_out_units', 9, 'AN' ),
+                      array( 'udrch_distribution_type_key', 1, 'AN' ),
+                      array( 'udrch_dst_prefix', 3, 'AN' ),
+                      array( 'udrch_dst_access_hw_info', 20, 'AN' ),
+                      array( 'udrch_dst_city', 10, 'AN' ),
+                      array( 'udrch_dst_country', 4, 'AN' ),
+                      array( 'udrch_dst_dialed', 32, 'AN' ),
+                      array( 'udrch_dst_info2', 21, 'AN' ),
+                      array( 'udrch_dst_imsi', 15, 'AN' ),
+                      array( 'udrch_dst_lrn', 10, 'AN' ),
+                      array( 'udrch_dst_mdn', 10, 'AN' ),
+                      array( 'udrch_dst_min', 10, 'AN' ),
+                      array( 'udrch_dst_state', 2, 'AN' ),
+                      array( 'udrch_dst_type', 2, 'AN' ),
+                      array( 'udrch_duration', 6, 'AN' ),
+                      array( 'udrch_duration_ring', 6, 'AN' ),
+                      array( 'udrch_duration_connect', 6, 'AN' ),
+                      array( 'udrch_duration_unit', 2, 'AN' ),
+                      array( 'udrch_dyn_addr_flag', 1, 'AN' ),
+                      array( 'udrch_billed_enode_id', 3, 'AN' ),
+                      array( 'udrch_market_npa_nxx', 6, 'AN' ),
+                      array( 'udrch_error_counter', 2, 'AN' ),
+                      array( 'udrch_event', 3, 'AN' ),
+                      array( 'udrch_file_reference', 11, 'AN' ),
+                      array( 'udrch_ggsn_address_used', 20, 'AN' ),
+                      array( 'udrch_home_pmn', 5, 'AN' ),
+                      array( 'udrch_home_rmr_rerate', 1, 'AN' ),
+                      array( 'udrch_home_sid', 5, 'AN' ),
+                      array( 'udrch_interconnect', 2, 'AN' ),
+                      array( 'udrch_interconnect_amount', 11, 'AN' ),
+                      array( 'udrch_interconnect_flag', 1, 'AN' ),
+                      array( 'udrch_interconnect_toll', 1, 'AN' ),
+                      array( 'udrch_jip', 10, 'AN' ),
+                      array( 'udrch_ld_route', 10, 'AN' ),
+                      array( 'udrch_local_rec_seq_num', 9, 'AN' ),
+                      array( 'udrch_message_length', 7, 'AN' ),
+                      array( 'udrch_toll_mileage', 5, 'AN' ),
+                      array( 'udrch_ms_network_capability', 2, 'AN' ),
+                      array( 'udrch_network_initiation', 2, 'AN' ),
+                      array( 'udrch_no_air_flag', 1, 'AN' ),
+                      array( 'udrch_oc_batch', 20, 'AN' ),
+                      array( 'udrch_oc_date', 16, 'AN' ),
+                      array( 'udrch_oc_user', 30, 'AN' ),
+                      array( 'udrch_other_amount', 11, 'AN' ),
+                      array( 'udrch_other_local_tax', 11, 'AN' ),
+                      array( 'udrch_other_state_tax', 11, 'AN' ),
+                      array( 'udrch_pdp_type', 20, 'AN' ),
+                      array( 'udrch_price', 11, 'AN' ),
+                      array( 'udrch_ps_header_id', 6, 'AN' ),
+                      array( 'udrch_qos_neg_delay', 1, 'AN' ),
+                      array( 'udrch_qos_neg_mean_throughput', 2, 'AN' ),
+                      array( 'udrch_qos_neg_peak_throughput', 1, 'AN' ),
+                      array( 'udrch_qos_neg_precedence', 1, 'AN' ),
+                      array( 'udrch_qos_neg_reliability', 1, 'AN' ),
+                      array( 'udrch_qos_req_delay', 1, 'AN' ),
+                      array( 'udrch_qos_req_mean_throughput', 2, 'AN' ),
+                      array( 'udrch_qos_req_peak_throughput', 1, 'AN' ),
+                      array( 'udrch_qos_req_precedence', 1, 'AN' ),
+                      array( 'udrch_qos_req_reliability', 1, 'AN' ),
+                      array( 'udrch_rate_center', 5, 'AN' ),
+                      array( 'udrch_rec_extensions', 15, 'AN' ),
+                      array( 'udrch_rnc_unsent_downlink_vol', 10, 'AN' ),
+                      array( 'udrch_served_market', 3, 'AN' ),
+                      array( 'udrch_served_pmn', 5, 'AN' ),
+                      array( 'udrch_served_sid', 5, 'AN' ),
+                      array( 'udrch_served_pdp_addr', 20, 'AN' ),
+                      array( 'udrch_service_feature', 2, 'AN' ),
+                      array( 'udrch_service_sub_feature', 4, 'AN' ),
+                      array( 'udrch_sgsn_address', 20, 'AN' ),
+                      array( 'udrch_sgsn_change', 1, 'AN' ),
+                      array( 'udrch_shell_id', 6, 'AN' ),
+                      array( 'udrch_shell_login_info', 6, 'AN' ),
+                      array( 'udrch_src_access_hw_info', 20, 'AN' ),
+                      array( 'udrch_src_city', 10, 'AN' ),
+                      array( 'udrch_src_country', 4, 'AN' ),
+                      array( 'udrch_src_info1', 10, 'AN' ),
+                      array( 'udrch_src_infra_hw_info', 20, 'AN' ),
+                      array( 'udrch_src_lrn', 10, 'AN' ),
+                      array( 'udrch_src_npa_nxx', 6, 'AN' ),
+                      array( 'udrch_src_state', 2, 'AN' ),
+                      array( 'udrch_surcharge_amount', 11, 'AN' ),
+                      array( 'udrch_surcharge_info', 2, 'AN' ),
+                      array( 'udrch_surcharge_misc_amount', 11, 'AN' ),
+                      array( 'udrch_surcharge_misc_info', 2, 'AN' ),
+                      array( 'udrch_switch_file_batch', 20, 'AN' ),
+                      array( 'udrch_switch_file', 10, 'AN' ),
+                      array( 'udrch_system_type', 1, 'AN' ),
+                      array( 'udrch_ticket_number', 10, 'AN' ),
+                      array( 'udrch_ticket_number_child', 10, 'AN' ),
+                      array( 'udrch_ticket_total_children', 10, 'AN' ),
+                      array( 'udrch_timezone_incr_done', 1, 'AN' ),
+                      array( 'udrch_tldn', 10, 'AN' ),
+                      array( 'udrch_toll_amount', 11, 'AN' ),
+                      array( 'udrch_toll_carrier', 1, 'AN' ),
+                      array( 'udrch_toll_local_tax', 11, 'AN' ),
+                      array( 'udrch_toll_multi_rate', 1, 'AN' ),
+                      array( 'udrch_toll_period', 2, 'AN' ),
+                      array( 'udrch_toll_spec_type', 2, 'AN' ),
+                      array( 'udrch_toll_state_tax', 11, 'AN' ),
+                      array( 'udrch_toll_tarif', 2, 'AN' ),
+                      array( 'udrch_toll_tax', 1, 'AN' ),
+                      array( 'udrch_toll_wide_area', 3, 'AN' ),
+                      array( 'udrch_trunk_group_incoming', 10, 'AN' ),
+                      array( 'udrch_trunk_group_outgoing', 10, 'AN' ),
+                      array( 'udrch_wnp_dip_charge_info', 4, 'AN' ),
+                      array( 'udrch_wnp_dip_charge_ind', 1, 'AN' ),
+                      array( 'udrch_world_timezone', 2, 'AN' ),
+                      array( 'udrch_zero_ld_chg_flag', 1, 'AN' ),
+                      array( 'udrch_billing_group_id', 16, 'AN' ),
+                      array( 'udrch_billing_period', 6, 'AN' ),
+                      array( 'udrch_rerate_seq_id', 16, 'AN' ),
+                      array( 'udrch_served_enode', 16, 'AN' ),
+                      array( 'newline', 1, 'AN' ) );
+
+
+#################
+#  CALCDR Record
+#
+$calCDRStruct = array( array( 'CALCDR-SRVCLASS', 1, 'AN' ),
+                       array( 'CALCDR-BILLED-MDN', 5, 'BI' ),
+                       array( 'CALCDR-BILLED-MDN-FIL', 2, 'BI' ),
+                       array( 'CALCDR-CALL-DATE-YY', 1, 'BI' ),
+                       array( 'CALCDR-CALL-DATE-MM', 1, 'BI' ),
+                       array( 'CALCDR-CALL-DATE-DD', 1, 'BI' ),
+                       array( 'CALCDR-CALL-HH', 1, 'BI' ),
+                       array( 'CALCDR-CALL-MM', 1, 'BI' ),
+                       array( 'CALCDR-CALL-SS', 1, 'BI' ),
+                       array( 'CALCDR-BILLED-ESN-IMEI', 7, 'BI' ),
+                       array( 'CALCDR-BILLED-MIN-IMSI', 5, 'BI' ),
+                       array( 'CALCDR-BILLED-MIN-FIL', 2, 'BI' ),
+                       array( 'CALCDR-BILLED-EID', 6, 'BI' ),
+                       array( 'CALCDR-PASS-AMT', 5, 'SP' ),
+                       array( 'CALCDR-BILLED-IND', 2, 'UN' ),
+                       array( 'CALCDR-SERV-MARKET', 3, 'UN' ),
+                       array( 'CALCDR-DIALED-MDN', 18, 'AN' ),
+                       array( 'CALCDR-DES-CTRY', 5, 'AN' ),
+                       array( 'CALCDR-DES-MDN', 5, 'BI' ),
+                       array( 'CALCDR-DES-MDN-FIL', 2, 'BI' ),
+                       array( 'CALCDR-DES-MIN', 5, 'BI' ),
+                       array( 'CALCDR-MIN-FIL', 2, 'BI' ),
+                       array( 'CALCDR-QUE-IND', 2, 'UN' ),
+                       array( 'CALCDR-DIRECTION', 2, 'AN' ),
+                       array( 'CALCDR-SPECIAL-FEATURE', 2, 'UN' ),
+                       array( 'CALCDR-CHARGE-MM', 2, 'BI' ),
+                       array( 'CALCDR-CHARGE-SS', 1, 'BI' ),
+                       array( 'CALCDR-ERROR-RETRY', 2, 'UN' ),
+                       array( 'CALCDR-ZERO-LD', 1, 'AN' ),
+                       array( 'CALCDR-NO-AIR', 1, 'AN' ),
+                       array( 'CALCDR-XNUMBER', 5, 'BI' ),
+                       array( 'CALCDR-CELL', 7, 'AN' ),
+                       array( 'CALCDR-CELL-FIL', 3, 'AN' ),
+                       array( 'CALCDR-CALL-DATE-YY-R', 1, 'BI' ),
+                       array( 'CALCDR-CALL-DATE-MM-R', 1, 'BI' ),
+                       array( 'CALCDR-CALL-DATE-DD-R', 1, 'BI' ),
+                       array( 'CALCDR-CALL-HH-R', 1, 'BI' ),
+                       array( 'CALCDR-CALL-MM-R', 1, 'BI' ),
+                       array( 'CALCDR-CALL-SS-R', 1, 'BI' ),
+                       array( 'CALCDR-CHARGE-MM-R', 2, 'BI' ),
+                       array( 'CALCDR-CHARGE-SS-R', 1, 'BI' ),
+                       array( 'CALCDR-CHARGE-UNITS', 3, 'BI' ),
+                       array( 'CALCDR-DISCARD-UNITS', 3, 'BI' ),
+                       array( 'CALCDR-SERV-SITE-ID', 2, 'BI' ),
+                       array( 'CALCDR-BILLED-SITE-ID', 2, 'BI' ),
+                       array( 'CALCDR-LD-ROUTE', 7, 'AN' ),
+                       array( 'CALCDR-LD-ROUTE-FIL', 3, 'AN' ),
+                       array( 'CALCDR-ERROR-CODE', 1, 'AN' ),
+                       array( 'CALCDR-ORG-IND', 1, 'AN' ),
+                       array( 'CALCDR-TOL-CARRIER', 2, 'BI' ),
+                       array( 'CALCDR-INCOMPLETE', 1, 'AN' ),
+                       array( 'CALCDR-BILLED-IND-OVERRIDE', 1, 'AN' ),
+                       array( 'CALCDR-SPLIT-BILL-IND', 1, 'AN' ),
+                       array( 'CALCDR-CALLER-ID', 5, 'BI' ),
+                       array( 'CALCDR-CALLERID-PRESENT', 1, 'AN' ),
+                       array( 'CALCDR-CALLER-ID-FIL', 1, 'BI' ),
+                       array( 'CALCDR-TMZN-INCR-DONE', 1, 'AN' ),
+                       array( 'CALCDR-BYP-CRS-MKT-RMG', 1, 'AN' ),
+                       array( 'CALCDR-SWITCH-FILE', 10, 'AN' ),
+                       array( 'CALCDR-LRN', 5, 'BI' ),
+                       array( 'CALCDR-TLDN', 5, 'BI' ),
+                       array( 'CALCDR-WNP-DIP-CHARGE-IND', 1, 'AN' ),
+                       array( 'CALCDR-TRAIL-FIL', 25, 'AN' ) );
+
+
+#####################
+#  CALCDR v2.0 Record
+#
+$calCDR2Struct = array( array( 'CALCDR2-SRVCLASS', 1, 'AN' ),
+                        array( 'CALCDR2-BILLED-MDN-MSISDN', 5, 'BI' ),
+                        array( 'CALCDR2-BILLED-MDN-FIL', 2, 'BI' ),
+                        array( 'CALCDR2-CALL-DATE-YY', 1, 'BI' ),
+                        array( 'CALCDR2-CALL-DATE-MM', 1, 'BI' ),
+                        array( 'CALCDR2-CALL-DATE-DD', 1, 'BI' ),
+                        array( 'CALCDR2-CALL-HH', 1, 'BI' ),
+                        array( 'CALCDR2-CALL-MM', 1, 'BI' ),
+                        array( 'CALCDR2-CALL-SS', 1, 'BI' ),
+                        array( 'CALCDR2-BILLED-ESN-IMEI', 7, 'BI' ),
+                        array( 'CALCDR2-BILLED-MIN-IMSI', 5, 'BI' ),
+                        array( 'CALCDR2-BILLED-MIN-FIL', 2, 'BI' ),
+                        array( 'CALCDR2-BILLED-EID', 6, 'BI' ),
+                        array( 'CALCDR2-PASS-AMT', 5, 'SP' ),
+                        array( 'CALCDR2-BILLED-IND', 2, 'UN' ),
+                        array( 'CALCDR2-SERV-MARKET', 3, 'UN' ),
+                        array( 'CALCDR2-DIALED-MDN', 18, 'AN' ),
+                        array( 'CALCDR2-DES-CTRY-1', 3, 'AN' ),
+                        array( 'CALCDR2-DES-CTRY-2', 2, 'AN' ),
+                        array( 'CALCDR2-DES-MDN-15', 5, 'BI' ),
+                        array( 'CALCDR2-DES-MDN-FIL', 2, 'BI' ),
+                        array( 'CALCDR2-DES-MIN-IMSI', 5, 'BI' ),
+                        array( 'CALCDR2-MIN-FIL', 2, 'BI' ),
+                        array( 'CALCDR2-QUE-IND', 2, 'UN' ),
+                        array( 'CALCDR2-DIRECTION', 2, 'AN' ),
+                        array( 'CALCDR2-SPECIAL-FEATURE', 2, 'UN' ),
+                        array( 'CALCDR2-CHARGE-MM', 2, 'BI' ),
+                        array( 'CALCDR2-CHARGE-SS', 1, 'BI' ),
+                        array( 'CALCDR2-ERROR-RETRY', 2, 'UN' ),
+                        array( 'CALCDR2-ZERO-LD', 1, 'AN' ),
+                        array( 'CALCDR2-NO-AIR', 1, 'AN' ),
+                        array( 'CALCDR2-XNUMBER', 5, 'BI' ),
+                        array( 'CALCDR2-CELL', 7, 'AN' ),
+                        array( 'CALCDR2-CELL-FIL', 3, 'AN' ),
+                        array( 'CALCDR2-CALL-DATE-YY-R', 1, 'BI' ),
+                        array( 'CALCDR2-CALL-DATE-MM-R', 1, 'BI' ),
+                        array( 'CALCDR2-CALL-DATE-DD-R', 1, 'BI' ),
+                        array( 'CALCDR2-CALL-HH-R', 1, 'BI' ),
+                        array( 'CALCDR2-CALL-MM-R', 1, 'BI' ),
+                        array( 'CALCDR2-CALL-SS-R', 1, 'BI' ),
+                        array( 'CALCDR2-CHARGE-MM-R', 2, 'BI' ),
+                        array( 'CALCDR2-CHARGE-SS-R', 1, 'BI' ),
+                        array( 'CALCDR2-CHARGE-UNITS', 3, 'BI' ),
+                        array( 'CALCDR2-DISCARD-UNITS', 3, 'BI' ),
+                        array( 'CALCDR2-SERV-SITE-ID', 2, 'BI' ),
+                        array( 'CALCDR2-BILLED-SITE-ID', 2, 'BI' ),
+                        array( 'CALCDR2-LD-ROUTE', 7, 'AN' ),
+                        array( 'CALCDR2-LD-ROUTE-FIL', 3, 'AN' ),
+                        array( 'CALCDR2-ERROR-CODE', 1, 'AN' ),
+                        array( 'CALCDR2-ORG-IND', 1, 'AN' ),
+                        array( 'CALCDR2-TOL-CARRIER', 2, 'BI' ),
+                        array( 'CALCDR2-INCOMPLETE', 1, 'AN' ),
+                        array( 'CALCDR2-BILLED-IND-OVERRIDE', 1, 'AN' ),
+                        array( 'CALCDR2-SPLIT-BILL-IND', 1, 'AN' ),
+                        array( 'CALCDR2-CALLER-ID-15', 5, 'BI' ),
+                        array( 'CALCDR2-CALLER-ID-FIL', 2, 'BI' ),
+                        array( 'CALCDR2-TMZN-INCR-DONE', 1, 'AN' ),
+                        array( 'CALCDR2-BYP-CRS-MKT-RMG', 1, 'AN' ),
+                        array( 'CALCDR2-SWITCH-FILE', 10, 'AN' ),
+                        array( 'CALCDR2-LRN', 5, 'BI' ),
+                        array( 'CALCDR2-TLDN', 5, 'BI' ),
+                        array( 'CALCDR2-WNP-DIP-CHARGE-IND', 1, 'AN' ),
+                        array( 'CALCDR2-TRAIL-FIL', 25, 'AN' ),
+                        array( 'CALCDR2-CALLERID-PRESENT', 1, 'AN' ),
+                        array( 'CALCDR2-CAMEL-SERVICES-LEVEL', 1, 'AN' ),
+                        array( 'CALCDR2-INTL-ROAM-IND', 1, 'AN' ),
+                        array( 'CALCDR2-CAMEL-SERV-KEY', 10, 'AN' ),
+                        array( 'CALCDR2-CAMEL-DEST-ADDRESS', 15, 'AN' ),
+                        array( 'CALCDR2-TRAIL-FIL-2', 22, 'AN' ) );
+
+
+
+#################
+#  SMSCDR Record
+#
+$smsCDRStruct = array( array( 'SMSCDR-SRVCLASS', 1, 'AN' ),
+                       array( 'SMSCDR-BILLED-MDN', 5, 'BI' ),
+                       array( 'SMSCDR-BILLED-MDN-FIL', 2, 'BI' ),
+                       array( 'SMSCDR-CALL-DATE-YY', 1, 'BI' ),
+                       array( 'SMSCDR-CALL-DATE-MM', 1, 'BI' ),
+                       array( 'SMSCDR-CALL-DATE-DD', 1, 'BI' ),
+                       array( 'SMSCDR-CALL-HH', 1, 'BI' ),
+                       array( 'SMSCDR-CALL-MM', 1, 'BI' ),
+                       array( 'SMSCDR-CALL-SS', 1, 'BI' ),
+                       array( 'SMSCDR-BILLED-ESN', 5, 'BI' ),
+                       array( 'SMSCDR-BILLED-ESN-FIL', 2, 'BI' ),
+                       array( 'SMSCDR-BILLED-MIN-IMSI', 5, 'BI' ),
+                       array( 'SMSCDR-BILLED-MIN-FIL', 2, 'BI' ),
+                       array( 'SMSCDR-BILLED-EID', 6, 'BI' ),
+                       array( 'SMSCDR-PASS-AMT', 5, 'SP' ),
+                       array( 'SMSCDR-BILLED-IND', 2, 'UN' ),
+                       array( 'SMSCDR-SERV-MARKET', 3, 'UN' ),
+                       array( 'SMSCDR-DIALED-MDN', 18, 'AN' ),
+                       array( 'SMSCDR-DES-CTRY', 5, 'AN' ),
+                       array( 'SMSCDR-DES-MDN', 5, 'BI' ),
+                       array( 'SMSCDR-DES-MDN-FIL', 2, 'BI' ),
+                       array( 'SMSCDR-DES-MIN', 5, 'BI' ),
+                       array( 'SMSCDR-DES-MIN-FIL', 2, 'BI' ),
+                       array( 'SMSCDR-QUE-IND', 2, 'UN' ),
+                       array( 'SMSCDR-DIRECTION', 2, 'AN' ),
+                       array( 'SMSCDR-SPECIAL-FEATURE', 2, 'UN' ),
+                       array( 'SMSCDR-MSG-LENGTH', 3, 'BI' ),
+                       array( 'SMSCDR-ERROR-RETRY', 2, 'UN' ),
+                       array( 'SMSCDR-ZERO-LD', 1, 'AN' ),
+                       array( 'SMSCDR-NO-AIR', 1, 'AN' ),
+                       array( 'SMSCDR-XNUMBER', 5, 'BI' ),
+                       array( 'SMSCDR-CELL', 7, 'AN' ),
+                       array( 'SMSCDR-CELL-FIL', 3, 'AN' ),
+                       array( 'SMSCDR-CALL-DATE-YY-R', 1, 'BI' ),
+                       array( 'SMSCDR-CALL-DATE-MM-R', 1, 'BI' ),
+                       array( 'SMSCDR-CALL-DATE-DD-R', 1, 'BI' ),
+                       array( 'SMSCDR-CALL-HH-R', 1, 'BI' ),
+                       array( 'SMSCDR-CALL-MM-R', 1, 'BI' ),
+                       array( 'SMSCDR-CALL-SS-R', 1, 'BI' ),
+                       array( 'SMSCDR-MSG-LENGTH-R', 3, 'BI' ),
+                       array( 'SMSCDR-CHARGE-UNITS', 3, 'BI' ),
+                       array( 'SMSCDR-DISCARD-UNITS', 3, 'BI' ),
+                       array( 'SMSCDR-SERV-SITE-ID', 2, 'BI' ),
+                       array( 'SMSCDR-BILLED-SITE-ID', 2, 'BI' ),
+                       array( 'SMSCDR-LD-ROUTE', 7, 'AN' ),
+                       array( 'SMSCDR-LD-ROUTE-FIL', 3, 'AN' ),
+                       array( 'SMSCDR-ERROR-CODE', 1, 'AN' ),
+                       array( 'SMSCDR-ORG-IND', 1, 'AN' ),
+                       array( 'SMSCDR-TOL-CARRIER', 2, 'BI' ),
+                       array( 'SMSCDR-INCOMPLETE', 1, 'AN' ),
+                       array( 'SMSCDR-BILLED-IND-OVERRIDE', 1, 'AN' ),
+                       array( 'SMSCDR-SPLIT-BILL-IND', 1, 'AN' ),
+                       array( 'SMSCDR-CALLER-ID', 5, 'BI' ),
+                       array( 'SMSCDR-CALLER-ID-FIL', 2, 'BI' ),
+                       array( 'SMSCDR-TMZN-INCR-DONE', 1, 'AN' ),
+                       array( 'SMSCDR-BYP-CRS-MKT-RMG', 1, 'AN' ),
+                       array( 'SMSCDR-SWITCH-FILE', 10, 'AN' ),
+                       array( 'SMSCDR-LRN', 5, 'BI' ),
+                       array( 'SMSCDR-TLDN', 5, 'BI' ),
+                       array( 'SMSCDR-WNP-DIP-CHARGE-IND', 1, 'AN' ),
+                       array( 'SMSCDR-CALLING-TON', 6, 'AN' ),
+                       array( 'SMSCDR-CALLED-TON', 6, 'AN' ),
+                       array( 'SMSCDR-DESCRIPTION', 40, 'AN' ),
+                       array( 'SMSCDR-PRICE', 8, 'UN' ),
+                       array( 'SMSCDR-LOCAL-TAX', 8, 'UN' ),
+                       array( 'SMSCDR-STATE-TAX', 8, 'UN' ),
+                       array( 'SMSCDR-FEDERAL-TAX', 8, 'UN' ),
+                       array( 'SMSCDR-REFERENCE-ID', 11, 'AN' ),
+                       array( 'SMSCDR-ACCT-LEVEL-BILL', 1, 'AN' ),
+                       array( 'SMSCDR-UNITS', 2, 'UN' ),
+                       array( 'SMSCDR-EVENT-TYPE', 2, 'AN' ),
+                       array( 'SMSCDR-REC-TYPE', 1, 'AN' ),
+                       array( 'SMSCDR-TRAIL-FIL', 24, 'AN' ) );
+
+
+####################
+#  DATCDR Struct
+#
+$datCDRStruct = array( array( 'DATCDR-SRVCLASS', 1, 'AN' ),
+                       array( 'DATCDR-BILLED-MDN', 5, 'BI' ),
+                       array( 'DATCDR-BILLED-MDN-FIL', 2, 'BI' ),
+                       array( 'DATCDR-CALL-DATE-YY', 1, 'BI' ),
+                       array( 'DATCDR-CALL-DATE-MM', 1, 'BI' ),
+                       array( 'DATCDR-CALL-DATE-DD', 1, 'BI' ),
+                       array( 'DATCDR-CALL-HH', 1, 'BI' ),
+                       array( 'DATCDR-CALL-MM', 1, 'BI' ),
+                       array( 'DATCDR-CALL-SS', 1, 'BI' ),
+                       array( 'DATCDR-BILLED-ESN', 5, 'BI' ),
+                       array( 'DATCDR-BILLED-ESN-FIL', 2, 'BI' ),
+                       array( 'DATCDR-BILLED-MIN-IMSI', 5, 'BI' ),
+                       array( 'DATCDR-BILLED-MIN-FIL', 2, 'BI' ),
+                       array( 'DATCDR-BILLED-EID', 6, 'BI' ),
+                       array( 'DATCDR-PASS-AMT', 5, 'SP' ),
+                       array( 'DATCDR-BILLED-IND', 2, 'UN' ),
+                       array( 'DATCDR-SERV-MARKET', 3, 'UN' ),
+                       array( 'DATCDR-DIALED-MDN', 18, 'AN' ),
+                       array( 'DATCDR-DES-CTRY', 5, 'AN' ),
+                       array( 'DATCDR-DES-MDN', 5, 'BI' ),
+                       array( 'DATCDR-DES-MDN-FIL', 2, 'BI' ),
+                       array( 'DATCDR-DES-MIN', 5, 'BI' ),
+                       array( 'DATCDR-DES-MIN-FIL', 2, 'BI' ),
+                       array( 'DATCDR-QUE-IND', 2, 'UN' ),
+                       array( 'DATCDR-DIRECTION', 2, 'AN' ),
+                       array( 'DATCDR-SPECIAL-FEATURE', 2, 'UN' ),
+                       array( 'DATCDR-MSG-LENGTH', 3, 'BI' ),
+                       array( 'DATCDR-ERROR-RETRY', 2, 'UN' ),
+                       array( 'DATCDR-ZERO-LD', 1, 'AN' ),
+                       array( 'DATCDR-NO-AIR', 1, 'AN' ),
+                       array( 'DATCDR-XNUMBER', 5, 'BI' ),
+                       array( 'DATCDR-CELL', 7, 'AN' ),
+                       array( 'DATCDR-CELL-FIL', 3, 'AN' ),
+                       array( 'DATCDR-CALL-DATE-YY-R', 1, 'BI' ),
+                       array( 'DATCDR-CALL-DATE-MM-R', 1, 'BI' ),
+                       array( 'DATCDR-CALL-DATE-DD-R', 1, 'BI' ),
+                       array( 'DATCDR-CALL-HH-R', 1, 'BI' ),
+                       array( 'DATCDR-CALL-MM-R', 1, 'BI' ),
+                       array( 'DATCDR-CALL-SS-R', 1, 'BI' ),
+                       array( 'DATCDR-MSG-LENGTH-R', 3, 'BI' ),
+                       array( 'DATCDR-CHARGE-KB', 3, 'BI' ),
+                       array( 'DATCDR-DISCARD-KB', 3, 'BI' ),
+                       array( 'DATCDR-SERV-SITE-ID', 2, 'BI' ),
+                       array( 'DATCDR-BILLED-SITE-ID', 2, 'BI' ),
+                       array( 'DATCDR-LD-ROUTE', 7, 'AN' ),
+                       array( 'DATCDR-LD-ROUTE-FIL', 3, 'AN' ),
+                       array( 'DATCDR-ERROR-CODE', 1, 'AN' ),
+                       array( 'DATCDR-ORG-IND', 1, 'AN' ),
+                       array( 'DATCDR-TOL-CARRIER', 2, 'BI' ),
+                       array( 'DATCDR-INCOMPLETE', 1, 'AN' ),
+                       array( 'DATCDR-BILLED-IND-OVERRIDE', 1, 'AN' ),
+                       array( 'DATCDR-SPLIT-BILL-IND', 1, 'AN' ),
+                       array( 'DATCDR-CALLER-ID', 5, 'BI' ),
+                       array( 'DATCDR-CALLER-ID-FIL', 2, 'BI' ),
+                       array( 'DATCDR-TMZN-INCR-DONE', 1, 'AN' ),
+                       array( 'DATCDR-BYP-CRS-MKT-RMG', 1, 'AN' ),
+                       array( 'DATCDR-SWITCH-FILE', 10, 'AN' ),
+                       array( 'DATCDR-LRN', 5, 'BI' ),
+                       array( 'DATCDR-TLDN', 5, 'BI' ),
+                       array( 'DATCDR-WNP-DIP-CHARGE-IND', 1, 'AN' ),
+                       array( 'DATCDR-CALLING-TON', 6, 'AN' ),
+                       array( 'DATCDR-CALLED-TON', 6, 'AN' ),
+                       array( 'DATCDR-DESCRIPTION', 40, 'AN' ),
+                       array( 'DATCDR-PRICE', 8, 'UN' ),
+                       array( 'DATCDR-LOCAL-TAX', 8, 'UN' ),
+                       array( 'DATCDR-STATE-TAX', 8, 'UN' ),
+                       array( 'DATCDR-FEDERAL-TAX', 8, 'UN' ),
+                       array( 'DATCDR-REFERENCE-ID', 11, 'AN' ),
+                       array( 'DATCDR-ACCT-LEVEL-BILL', 1, 'AN' ),
+                       array( 'DATCDR-KB-MO-OT', 3, 'BI' ),
+                       array( 'DATCDR-KB-MT-IN', 3, 'BI' ),
+                       array( 'DATCDR-DOMAIN', 15, 'AN' ),
+                       array( 'DATCDR-TRAIL-FIL', 8, 'AN' ) );
+
+########################
+#  Cingular Fixed Record
+#
+$cingFixStruct = array( array( 'cngcdr-billable-number', 10, 'UN' ),
+                        array( 'cngcdr-other-party-number', 10, 'UN' ),
+                        array( 'cngcdr-billable-overflow', 05, 'UN' ),
+                        array( 'cngcdr-other-party-overflow', 05, 'UN' ),
+                        array( 'cngcdr-record-date', 06, 'UN' ),
+                        array( 'cngcdr-connect-time', 06, 'UN' ),
+                        array( 'cngcdr-record-type', 02, 'UN' ),
+                        array( 'cngcdr-time-zone-ind', 02, 'UN' ),
+                        array( 'cngcdr-daylight-savings-ind', 01, 'UN' ),
+                        array( 'cngcdr-call-direction-ind', 01, 'UN' ),
+                        array( 'cngcdr-call-completion-ind', 01, 'UN' ),
+                        array( 'cngcdr-cellsite-id', 05, 'UN' ),
+                        array( 'cngcdr-serv-sid', 05, 'UN' ),
+                        array( 'cngcdr-originating-location', 12, 'AN' ),
+                        array( 'cngcdr-terminating-location', 12, 'AN' ),
+                        array( 'cngcdr-sc-settlement-code', 01, 'AN' ),
+                        array( 'cngcdr-call-features', 01, 'UN' ),
+                        array( 'cngcdr-plmn-code', 05, 'AN' ),
+                        array( 'cngcdr-location-area-code', 05, 'UN' ),
+                        array( 'cngcdr-network-technology-type', 03, 'AN' ),
+                        array( 'cngcdr-home-roam-ind', 01, 'AN' ),
+                        array( 'cngcdr-imsi',15, 'UN' ),
+                        array( 'cngcdr-lrn', 10, 'UN' ),
+                        array( 'cngcdr-jip', 15, 'UN' ),
+                        array( 'cngcdr-elapsed-time', 06, 'UN' ),
+                        array( 'cngcdr-future-usage-field', 44, 'AN' ),
+                        array( 'newline', 01, 'AN' ) );
+
+
+
+########################
+#  Ciber Type 22 Record
+#
+$cib0222Struct = array(
+                 array( 'C0222-RCD                      ' , 02, 'UN' ),
+                 array( 'C0222-RETURN-CODE              ' , 01, 'UN' ),
+                 array( 'C0222-RETURN-REASON            ' , 02, 'UN' ),
+                 array( 'C0222-INVALID-FLD-IND          ' , 03, 'UN' ),
+                 array( 'C0222-HOME-SID                 ' , 05, 'UN' ),
+                 array( 'C0222-MOBIL-ID-IND             ' , 01, 'UN' ),
+                 array( 'C0222-MOBIL-ID                 ' , 15, 'UN' ),
+                 array( 'C0222-MSISDN-MDN-LEN           ' , 02, 'UN' ),
+                 array( 'C0222-MSISDN-MDN               ' , 15, 'UN' ),
+                 array( 'C0222-ESN-IMEI-IND             ' , 01, 'UN' ),
+                 array( 'C0222-ESN                      ' , 19, 'UN' ),
+                 array( 'C0222-SERV-SID                 ' , 05, 'UN' ),
+                 array( 'C0222-TOTAL-AMT                ' , 11, 'UN' ),
+                 array( 'C0222-STATE-TAX                ' , 11, 'UN' ),
+                 array( 'C0222-LOCAL-TAX                ' , 11, 'UN' ),
+                 array( 'C0222-CALL-DATE                ' , 06, 'UN' ),
+                 array( 'C0222-DIRECTION                ' , 01, 'UN' ),
+                 array( 'C0222-COMPLETE-IND             ' , 01, 'UN' ),
+                 array( 'C0222-TERMINATE-IND            ' , 01, 'UN' ),
+                 array( 'C0222-CALLER-ID-LEN            ' , 02, 'UN' ),
+                 array( 'C0222-CALLER-ID                ' , 15, 'UN' ),
+                 array( 'C0222-CALLED-NUM-LEN           ' , 02, 'UN' ),
+                 array( 'C0222-CALLED-NUMBER            ' , 10, 'UN' ),
+                 array( 'C0222-CALLED-OVER              ' , 05, 'UN' ),
+                 array( 'C0222-LOC-ROUTE-NUM-LEN        ' , 02, 'UN' ),
+                 array( 'C0222-LOC-ROUTE-NUM            ' , 15, 'UN' ),
+                 array( 'C0222-TLDN-LEN                 ' , 02, 'UN' ),
+                 array( 'C0222-TLDN                     ' , 15, 'UN' ),
+                 array( 'C0222-CURRENCY                 ' , 02, 'UN' ),
+                 array( 'C0222-SYSTEM-RESERVED-01       ' , 02, 'AN' ),
+                 array( 'C0222-ORIG-BATCH-SEQ-NUM       ' , 03, 'UN' ),
+                 array( 'C0222-INITIAL-CELL             ' , 11, 'UN' ),
+                 array( 'C0222-TIME-ZONE                ' , 02, 'UN' ),
+                 array( 'C0222-DAYLITE-SAV              ' , 01, 'UN' ),
+                 array( 'C0222-MSG-UNITS                ' , 10, 'UN' ),
+                 array( 'C0222-CONNECT-TIME             ' , 06, 'UN' ),
+                 array( 'C0222-CHG-TIME                 ' , 06, 'UN' ),
+                 array( 'C0222-ELP-TIME                 ' , 06, 'UN' ),
+                 array( 'C0222-RATE-PERIOD              ' , 02, 'UN' ),
+                 array( 'C0222-MULTI-RATE               ' , 01, 'UN' ),
+                 array( 'C0222-AIR-AMT                  ' , 11, 'UN' ),
+                 array( 'C0222-OTHER-CHG-NO1-IND        ' , 02, 'AN' ),
+                 array( 'C0222-OTHER-CHG-NO1            ' , 11, 'UN' ),
+                 array( 'C0222-SYS-RESERVE              ' , 13, 'AN' ),
+                 array( 'C0222-PRINTED-CALL             ' , 15, 'AN' ),
+                 array( 'C0222-FRAUD-IND                ' , 02, 'AN' ),
+                 array( 'C0222-SUB-FRAUD-IND            ' , 01, 'AN' ),
+                 array( 'C0222-SPECIAL-FEATURE          ' , 05, 'AN' ),
+                 array( 'C0222-CALLED-CITY              ' , 10, 'AN' ),
+                 array( 'C0222-CALLED-STATE             ' , 02, 'AN' ),
+                 array( 'C0222-CALLED-COUNTRY           ' , 03, 'AN' ),
+                 array( 'C0222-SERV-CITY                ' , 10, 'AN' ),
+                 array( 'C0222-SERV-STATE               ' , 02, 'AN' ),
+                 array( 'C0222-SERV-COUNTRY             ' , 03, 'AN' ),
+                 array( 'C0222-TOL-CONNECT-TIME         ' , 06, 'UN' ),
+                 array( 'C0222-TOL-CHG-TIME             ' , 06, 'UN' ),
+                 array( 'C0222-TOL-ELP-TIME             ' , 06, 'UN' ),
+                 array( 'C0222-TOL-TARIF                ' , 02, 'UN' ),
+                 array( 'C0222-TOL-RATE-PERIOD          ' , 02, 'UN' ),
+                 array( 'C0222-TOL-MULTI-RATE           ' , 01, 'UN' ),
+                 array( 'C0222-TOL-RATE-CLASS           ' , 01, 'UN' ),
+                 array( 'C0222-TOL-RATE-POINT-LEN-IND   ' , 02, 'UN' ),
+                 array( 'C0222-TOL-RATE-POINT           ' , 10, 'UN' ),
+                 array( 'C0222-TOL-AMT                  ' , 11, 'UN' ),
+                 array( 'C0222-TOL-STATE-TAX            ' , 11, 'UN' ),
+                 array( 'C0222-TOL-LOCAL-TAX            ' , 11, 'UN' ),
+                 array( 'C0222-TOL-CARRIER              ' , 05, 'UN' ),
+                 array( 'C0222-REROUT-FLAG              ' , 01, 'AN' ),
+                 array( 'C0222-HRMR-REJECT-FLAG         ' , 01, 'AN' ),
+                 array( 'C0222-HRMR-REJECT-CNT          ' , 02, 'UN' ),
+                 array( 'C0222-V-CORD                   ' , 05, 'UN' ),
+                 array( 'C0222-H-CORD                   ' , 05, 'UN' ),
+                 array( 'C0222-LOCAL-RESERVE            ' , 61, 'AN' ),
+                 array( 'C0222-VRSN-FILE-NAME           ' , 10, 'AN' ),
+                 array( 'C0222-CAMEL-SERVICE-LEVEL      ' , 01, 'AN' ),
+                 array( 'C0222-INTL-ROAM-IND            ' , 01, 'AN' ),
+                 array( 'C0222-CAMEL-SERV-KEY           ' , 10, 'AN' ),
+                 array( 'C0222-CAMEL-DEST-ADDR          ' , 15, 'AN' ),
+                 array( 'C0222-SYS-RESERVE-2            ' , 38, 'AN' ),
+                 array( 'C0222-filler                   ' , 20, 'AN' ) );
+
+
+
+function matchRecord( $fpSrc, $fpDst, $srcType, $dstType, $srcRecNum, $dstRecNum )
+{
+    global $structSize;
+
+    #  Read a record from the source file
+    #
+    $srcRecStr = getRecord( $fpSrc, $srcType, $srcRecNum );
+
+    #  Position the search record to 1 past
+    #  the current record
+    #
+    $recNum = $dstRecNum + 1;
+
+    #  Clear our done flag
+    #
+    $done = FALSE;
+
+    #  While we haven't found a matched
+    #  record, or exhausted our search
+    #
+    while ( !$done )
+    {
+        #  Read a record from the target file,
+        #  and if we fail to read a record, and
+        #  we are not at the beginning of the file,
+        #  set our record number to the beginning and
+        #  try again, otherwise return FALSE
+        #  
+        if ( !( $dstRecStr = getRecord( $fpDst, $dstType, $recNum ) ) )
+        {
+            if ( $recNum != 0 )
+                $recNum = 0;
+            else
+                $done = TRUE;
+        }
+
+        #  If our records match, return the
+        #  target record number
+        #
+        if ( isRecordMatch( $srcRecStr, $srcType, $dstRecStr, $dstType ) )
+            return $recNum;
+   
+        #  If the current record number
+        #  is equal to our starting record
+        #  number, then exit this loop
+        #
+        if ( $recNum == $dstRecNum )
+            $done = TRUE;
+
+        #  Advance the record number
+        #
+        $recNum++;
+    }
+
+    return -1;
+}
+
+
+function isRecordMatch( $recStr1, $type1, $recStr2, $type2 )
+{
+    global $useCallDir;
+    global $useMinMdn;
+
+    #  Get the matching structures for each
+    #  record
+    #
+    $recStruct1 = getRecStruct( $type1 );
+    $recStruct2 = getRecStruct( $type2 );
+
+    #  Get the connection dates
+    #
+    $connDate1 = getConnectDate( $recStr1, $type1 );
+    $connDate2 = getConnectDate( $recStr2, $type2 );
+
+    #  Find the smallest of the 2 date strings
+    #
+    $minSize   = strlen( $connDate1 ) > strlen( $connDate2 ) ? 
+                 strlen( $connDate2 ) : strlen( $connDate1 );
+
+    #  Trim each date string down to the lowest size
+    #
+    $connDate1 = substr( $connDate1, 0, $minSize );
+    $connDate2 = substr( $connDate2, 0, $minSize );
+
+    #  If the connect times are different
+    #
+    if ( $connDate1 != $connDate2 )
+        return FALSE;
+
+    #  If we are supposed to use the Billed MIN
+    #
+    if ( $useMinMdn == 1 )
+    {
+        #  If the Billed Min Numbers are different
+        #
+        if ( getBilledMin( $recStr1, $type1 ) != getBilledMin( $recStr2, $type2 ) )
+            return FALSE;
+    }
+
+    #  If we are supposed to use the Billed MDN
+    #
+    if ( $useMinMdn == 2 )
+    {
+        #  If the Billed Min Numbers are different
+        #
+        if ( getBilledMdn( $recStr1, $type1 ) != getBilledMdn( $recStr2, $type2 ) )
+            return FALSE;
+    }
+
+    #  If we are supposed to use the Billed IMSI
+    #
+    if ( $useMinMdn == 3 )
+    {
+        #  If the Billed IMSI Numbers are different
+        #
+        if ( getBilledImsi( $recStr1, $type1 ) != getBilledImsi( $recStr2, $type2 ) )
+            return FALSE;
+    }
+
+    #  If we are supposed to use the call
+    #  direction to determine record equivelance,
+    #
+    if ( $useCallDir )
+    {
+        #  If the Call Direction is different
+        #
+        if ( getCallDirection( $recStr1, $type1 ) != getCallDirection( $recStr2, $type2 ) )
+            return FALSE;
+    }
+
+    #  The Records Match
+    #
+    return TRUE;
+}
+
+
+function getConnectDate( $recStr, $type )
+{
+    $fieldVal = '';
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 34 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 56 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 70 );
+        break;
+
+    case 3:  //  CALCDR
+        $fieldVal = sprintf( "%04d%02d%02d%02d%02d%02d",
+                             intval( getFieldVal( $recStr, $type, 3 ) ) + 1900,
+                             intval( getFieldVal( $recStr, $type, 4 ) ),
+                             intVal( getFieldVal( $recStr, $type, 5 ) ),
+                             intVal( getFieldVal( $recStr, $type, 6 ) ),
+                             intVal( getFieldVal( $recStr, $type, 7 ) ),
+                             intVal( getFieldVal( $recStr, $type, 8 ) ) );
+        break;
+
+    case 10: //  CALCDR2
+        $fieldVal = sprintf( "%04d%02d%02d%02d%02d%02d",
+                             intval( getFieldVal( $recStr, $type, 3 ) ) + 1900,
+                             intval( getFieldVal( $recStr, $type, 4 ) ),
+                             intVal( getFieldVal( $recStr, $type, 5 ) ),
+                             intVal( getFieldVal( $recStr, $type, 6 ) ),
+                             intVal( getFieldVal( $recStr, $type, 7 ) ),
+                             intVal( getFieldVal( $recStr, $type, 8 ) ) );
+        break;
+
+    case 4:  //  DATCDR
+        $fieldVal = sprintf( "%04d%02d%02d%02d%02d%02d",
+                             intval( getFieldVal( $recStr, $type, 3 ) ) + 1900,
+                             intval( getFieldVal( $recStr, $type, 4 ) ),
+                             intVal( getFieldVal( $recStr, $type, 5 ) ),
+                             intVal( getFieldVal( $recStr, $type, 6 ) ),
+                             intVal( getFieldVal( $recStr, $type, 7 ) ),
+                             intVal( getFieldVal( $recStr, $type, 8 ) ) );
+        break;
+
+    case 5:  //  SMSCDR
+        $fieldVal = getFieldVal( $recStr, $type, 3 );
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 56 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 70 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 49 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 88 );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #echo "fieldVal = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+
+function getBilledMin( $recStr, $type )
+{
+    $fieldVal = '';
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp
+        $fieldVal = getFieldVal( $recStr, $type, 14 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 32 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 38 );
+        break;
+
+    case 3:  //  CALCDR
+        $fieldVal = getFieldVal( $recStr, $type, 10 );
+        break;
+
+    case 10:  //  CALCDR2
+        $fieldVal = getFieldVal( $recStr, $type, 10 );
+        break;
+
+    case 4:  //  DATCDR
+        $fieldVal = getFieldVal( $recStr, $type, 11 );
+        break;
+
+    case 5:  //  SMSCDR
+        $fieldVal = getFieldVal( $recStr, $type, 11 );
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 32 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 38 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 21 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 32 );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #echo "fieldVal = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+
+function getBilledMdn( $recStr, $type )
+{
+    $fieldVal = '';
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 13 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 31 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 35 );
+        break;
+
+    case 3:  //  CALCDR
+        $fieldVal = getFieldVal( $recStr, $type, 1 );
+        break;
+
+    case 10:  //  CALCDR
+        $fieldVal = getFieldVal( $recStr, $type, 1 );
+        break;
+
+    case 4:  //  DATCDR
+        $fieldVal = getFieldVal( $recStr, $type, 1 );
+        break;
+
+    case 5:  //  SMSCDR
+        $fieldVal = getFieldVal( $recStr, $type, 1 );
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 31 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 35 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 18 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 31 );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #echo "fieldVal = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+
+function getBilledImsi( $recStr, $type )
+{
+    $fieldVal = '';
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 12 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 30 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 34 );
+        break;
+
+    case 3:  //  CALCDR
+        $fieldVal = convertFieldToVal( 'BI', 7, substr( $recStr, 21, 7 ) );
+        break;
+
+    case 10:  //  CALCDR2
+        $fieldVal = convertFieldToVal( 'BI', 7, substr( $recStr, 21, 7 ) );
+        break;
+
+    case 4:  //  DATCDR
+        $fieldVal = convertFieldToVal( 'BI', 7, substr( $recStr, 21, 7 ) );
+        break;
+
+    case 5:  //  SMSCDR
+        $fieldVal = convertFieldToVal( 'BI', 7, substr( $recStr, 21, 7 ) );
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 30 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 34 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 17 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 30 );
+        break;
+
+    case 11:  //  Cingular Fixed Length
+        $fieldVal = getFieldVal( $recStr, $type, 21 );
+        break;
+
+    case 12:  //  Ciber Type 22
+        $fieldVal = getFieldVal( $recStr, $type, 6  );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #echo "fieldVal = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+function getBilledMDN15( $recStr, $type )
+{
+    $fieldVal = '';
+
+    $fieldVal = convertFieldToVal( 'BI', 7, substr( $recStr, 1, 7 ) );
+
+    #echo "fieldVal = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+function getDesImsi( $recStr, $type )
+{
+    $fieldVal = '';
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 44 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 70 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 84 );
+        break;
+
+    case 3:  //  CALCDR
+        $fieldVal = convertFieldToVal( 'BI', 7, substr( $recStr, 74, 7 ) );
+        break;
+
+    case 10:  //  CALCDR2
+        $fieldVal = convertFieldToVal( 'BI', 7, substr( $recStr, 74, 7 ) );
+        break;
+
+    case 4:  //  DATCDR
+        $fieldVal = convertFieldToVal( 'BI', 7, substr( $recStr, 74, 7 ) );
+        break;
+
+    case 5:  //  SMSCDR
+        $fieldVal = convertFieldToVal( 'BI', 7, substr( $recStr, 74, 7 ) );
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 70 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 84 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 60 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 30 );
+        break;
+
+    case 11:  //  Cingular Fixed Length
+        $fieldVal = getFieldVal( $recStr, $type, 21 );
+        break;
+
+    case 12:  //  Ciber Type 22
+        $fieldVal = getFieldVal( $recStr, $type, 6  );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #echo "fieldVal = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+
+function getDialedNumber( $recStr, $type )
+{
+    $fieldVal = '';
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 43 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 68 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 82 );
+        break;
+
+    case 3:  //  CALCDR
+        $fieldVal = getFieldVal( $recStr, $type, 16 );
+        break;
+
+    case 10:  //  CALCDR2
+        $fieldVal = getFieldVal( $recStr, $type, 16 );
+        break;
+
+    case 4:  //  DATCDR
+        $fieldVal = getFieldVal( $recStr, $type, 17 );
+        break;
+
+    case 5:  //  SMSCDR
+        $fieldVal = getFieldVal( $recStr, $type, 17 );
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 68 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 82 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 59 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 67 );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #echo "fieldVal = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+
+function getCallerID( $recStr, $type )
+{
+    $fieldVal = '';
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp
+        $fieldVal = getFieldVal( $recStr, $type, 20 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 38 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 47 );
+        break;
+
+    case 3:  //  CALCDR
+        $fieldVal = getFieldVal( $recStr, $type, 53 );
+        break;
+
+    case 10:  //  CALCDR2
+        $fieldVal = getFieldVal( $recStr, $type, 54 );
+        break;
+
+    case 4:  //  DATCDR
+        $fieldVal = getFieldVal( $recStr, $type, 52 );
+        break;
+
+    case 5:  //  SMSCDR
+        $fieldVal = getFieldVal( $recStr, $type, 52 );
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 38 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 47 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 28 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 38 );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #echo "fieldVal = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+
+function getIncompleteFlag( $recStr, $type )
+{
+    $fieldVal = '';
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp
+        $fieldVal = getFieldVal( $recStr, $type, 16 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 34 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 43 );
+        break;
+
+    case 3:  //  CALCDR
+        $fieldVal = getFieldVal( $recStr, $type, 50 );
+        break;
+
+    case 10:  //  CALCDR2
+        $fieldVal = getFieldVal( $recStr, $type, 51 );
+        break;
+
+    case 4:  //  DATCDR
+        $fieldVal = getFieldVal( $recStr, $type, 49 );
+        break;
+
+    case 5:  //  SMSCDR
+        $fieldVal = getFieldVal( $recStr, $type, 49 );
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 34 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 43 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 24 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 34 );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #echo "fieldVal (incompelte) = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+
+function getNoAirFlag( $recStr, $type )
+{
+    $fieldVal = '';
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp
+        $fieldVal = getFieldVal( $recStr, $type, 72 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 101 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 117 );
+        break;
+
+    case 3:  //  CALCDR
+        $fieldVal = getFieldVal( $recStr, $type, 29 );
+        break;
+
+    case 10:  //  CALCDR2
+        $fieldVal = getFieldVal( $recStr, $type, 30 );
+        break;
+
+    case 4:  //  DATCDR
+        $fieldVal = getFieldVal( $recStr, $type, 29 );
+        break;
+
+    case 5:  //  SMSCDR
+        $fieldVal = getFieldVal( $recStr, $type, 29 );
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 101 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 117 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 89 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 99 );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #echo "fieldVal (no_air) = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+
+function getNoTollFlag( $recStr, $type )
+{
+    $fieldVal = '';
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp
+        $fieldVal = getFieldVal( $recStr, $type, 113 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 169 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 192 );
+        break;
+
+    case 3:  //  CALCDR
+        $fieldVal = getFieldVal( $recStr, $type, 28 );
+        break;
+
+    case 10:  //  CALCDR
+        $fieldVal = getFieldVal( $recStr, $type, 29 );
+        break;
+
+    case 4:  //  DATCDR
+        $fieldVal = getFieldVal( $recStr, $type, 28 );
+        break;
+
+    case 5:  //  SMSCDR
+        $fieldVal = getFieldVal( $recStr, $type, 28 );
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 169 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 192 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 148 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 164 );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #echo "fieldVal (zero_ld) = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+
+function getDestMDN( $recStr, $type )
+{
+    $fieldVal = '';
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp
+        $fieldVal = getFieldVal( $recStr, $type, 46 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 72 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 86 );
+        break;
+
+    case 3:  //  CALCDR
+        $fieldVal = getFieldVal( $recStr, $type, 18 );
+        break;
+
+    case 10:  //  CALCDR2
+        $fieldVal = getFieldVal( $recStr, $type, 19 );
+        break;
+
+    case 4:  //  DATCDR
+        $fieldVal = getFieldVal( $recStr, $type, 19 );
+        break;
+
+    case 5:  //  SMSCDR
+        $fieldVal = getFieldVal( $recStr, $type, 19 );
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 72 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 86 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 62 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 71 );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #echo "fieldVal = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+
+function getDestMIN( $recStr, $type )
+{
+    $fieldVal = '';
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 47 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 73 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 87 );
+        break;
+
+    case 3:  //  CALCDR
+        $fieldVal = getFieldVal( $recStr, $type, 20 );
+        break;
+
+    case 10:  //  CALCDR2
+        $fieldVal = getFieldVal( $recStr, $type, 21 );
+        break;
+
+    case 4:  //  DATCDR
+        $fieldVal = getFieldVal( $recStr, $type, 21 );
+        break;
+
+    case 5:  //  SMSCDR
+        $fieldVal = getFieldVal( $recStr, $type, 21 );
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 73 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 87 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 63 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 72 );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #echo "fieldVal = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+
+function getDesMDN15( $recStr, $type )
+{
+    $fieldVal = '';
+
+    $fieldVal = convertFieldToVal( 'BI', 7, substr( $recStr, 67, 7 ) );
+
+    #echo "fieldVal = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+function getHomeSID( $recStr, $type )
+{
+    $fieldVal = '';
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 60 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 89 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 104 );
+        break;
+
+    case 3:   //  CALCDR
+    case 10:  //  CALCDR2
+    case 4:   //  DATCDR
+    case 5:   //  SMSCDR
+        $fieldVal = 'ivan';
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 89 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 104 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 76 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 87 );
+        break;
+
+    case 12:  //  Ciber Type 22
+        $fieldVal = getFieldVal( $recStr, $type, 4 );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #echo "fieldVal = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+
+function getServSID( $recStr, $type )
+{
+    $fieldVal = '';
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 80 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 126 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 148 );
+        break;
+
+    case 3:   //  CALCDR
+    case 10:  //  CALCDR2
+    case 4:   //  DATCDR
+    case 5:   //  SMSCDR
+        $fieldVal = 'ivan';
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 126 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 148 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 113 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 121 );
+        break;
+
+    case 12:  //  Ciber Type 22
+        $fieldVal = getFieldVal( $recStr, $type, 11 );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #echo "fieldVal = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+
+function getCallDirection( $recStr, $type )
+{
+    #  If we are not OldGen, get the call type of
+    #  the record
+    #
+    switch ( $type )
+    {
+    case 0:  //  udrsp ver1.0
+    case 1:  //  udr ver1.0 (pipe)
+    case 2:  //  udr ver2.0 (pipe)
+    case 6:  //  udr ver1.0
+    case 7:  //  udr ver2.0
+    case 8:  //  udrsp ver2.0
+    case 9:  //  udrch (pipe)
+
+        #  Get the call type field
+        #
+        $fieldVal = getCallTypeID( $recStr, $type );
+ 
+        #  Extract the Direction from the type
+        #
+        $fieldVal = substr( $fieldVal, 3, 2 );
+        break;
+
+    case 3:  //  CALCDR
+        #  Get the Direction string
+        #
+        $fieldVal = getFieldVal( $recStr, $type, 23 );
+
+        #  Get the Origination Indicator
+        #
+        $origInd  = getFieldVal( $recStr, $type, 48 );
+        break;
+
+    case 10:  //  CALCDR2
+        #  Get the Direction string
+        #
+        $fieldVal = getFieldVal( $recStr, $type, 24 );
+
+        #  Get the Origination Indicator
+        #
+        $origInd  = getFieldVal( $recStr, $type, 49 );
+        break;
+
+    case 4:  //  DATCDR
+        #  Get the Direction string
+        #
+        $fieldVal = getFieldVal( $recStr, $type, 24 );
+
+        #  Get the Origination Indicator
+        #
+        $origInd  = getFieldVal( $recStr, $type, 49 );
+        break;
+
+    case 5:   //  SMSCDR
+        #  Get the Direction string
+        #
+        $fieldVal = getFieldVal( $recStr, $type, 24 );
+
+        #  Get the Origination Indicator
+        #
+        $origInd  = getFieldVal( $recStr, $type, 49 );
+        break;
+    }
+
+    #echo "fieldVal = '$fieldVal'", "<br>\n";
+
+    #  In OldGen, convert string directions to
+    #  numbers
+    #
+    if ( $type == 3 || $type == 4 || $type == 5 || $type == 10 )
+    {
+        switch ( $fieldVal )
+        {
+        case 'MO':
+            $fieldVal = '00';
+            break;
+    
+        case 'ML':
+            $fieldVal = '01';
+            break;
+    
+        case 'MT':
+        case 'LM':
+            $fieldVal = '02';
+            break;
+        
+        case 'MM':
+            #  If the origination indicator
+            #  is 'T', then it is mobile-mobile
+            #  terminated, otherwise it is
+            #  mobile-mobile originated
+            #
+            if ( $origInd == 'T' )
+                $fieldVal = '09';
+            else
+                $fieldVal = '04';
+            break;
+       }
+
+       #  Get the service feature value
+       #
+       $servFeat = getServiceFeature( $recStr, $type );
+
+       #  Depeinding on the service feature,
+       #  change the call direction
+       # 
+       if ( intval( $servFeat ) )
+       {
+           #  If the call was originated,
+           #  then make it Feature-Orig,
+           #  otherwise, Feature-Term
+           #
+           if ( $fieldVal == '04' || $fieldVal == '01' )
+           {
+               #  Feature-Orig
+               #
+               $fieldVal = '05';
+           }
+           else if ( $fieldVal == '09' || $fieldVal == '02' )
+           {
+               #  Feature-Term
+               #
+               $fieldVal = '06';
+           }
+       }
+    }
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+
+function getHomeRoam( $recStr, $type )
+{
+    $fieldVal = '';
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp ver1.0
+    case 1:  //  udr ver1.0 (pipe)
+    case 2:  //  udr ver2.0 (pipe)
+    case 6:  //  udr ver1.0
+    case 7:  //  udr ver2.0
+    case 8:  //  udrsp ver2.0
+    case 9:  //  udrch (pipe)
+
+        #  Get the call type field
+        #
+        $fieldVal = getCallTypeID( $recStr, $type );
+
+        #  Extract the Home/Roam Value from the type
+        #
+        $fieldVal = substr( $fieldVal, 2, 1 );
+        break;
+
+    case 3:  //  CALCDR
+        $fieldVal = getFieldVal( $recStr, $type, 14 );
+        break;
+
+    case 10:  //  CALCDR2
+        $fieldVal = getFieldVal( $recStr, $type, 14 );
+        break;
+
+    case 4:  //  DATCDR
+        $fieldVal = getFieldVal( $recStr, $type, 15 );
+        break;
+
+    case 5:  //  SMSCDR
+        $fieldVal = getFieldVal( $recStr, $type, 15 );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #echo "fieldVal = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+
+function getCallDurationSec( $recStr, $type )
+{
+    $fieldVal = '';
+    $seconds  = 0.0;
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp ver1.0
+        $fieldVal= getFieldVal( $recStr, $type, 51 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal= getFieldVal( $recStr, $type, 78 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal= getFieldVal( $recStr, $type, 92 );
+        break;
+
+    case 3:  //  CALCDR
+        $fieldVal= intval( getFieldVal( $recStr, $type, 25 ) * 60 ) + 
+                   intval( getFieldVal( $recStr, $type, 26 ) );
+        break;
+
+    case 10:  //  CALCDR2
+        $fieldVal= intval( getFieldVal( $recStr, $type, 26 ) * 60 ) + 
+                   intval( getFieldVal( $recStr, $type, 27 ) );
+        break;
+
+    case 4:  //  DATCDR
+        $fieldVal = 0;
+        break;
+
+    case 5:  //  SMSCDR
+        $fieldVal = 0;
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal= getFieldVal( $recStr, $type, 78 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal= getFieldVal( $recStr, $type, 92 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal= getFieldVal( $recStr, $type, 65 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal= getFieldVal( $recStr, $type, 75 );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #  If the type is one that has the 'mmmmsst' format,
+    #  perform the calculation
+    #
+    if ( $type != 3 && $type != 4 && $type != 5 && $type != 10 )
+    {
+        $seconds = floor( $fieldVal / 1000 ) * 60.0 +
+                        ( $fieldVal % 1000 ) / 10.0;
+    }
+    else
+    {
+        $seconds = $fieldVal;
+    }
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $seconds;
+}
+
+
+function getRingDurationSec( $recStr, $type )
+{
+    $fieldVal = '';
+    $seconds  = 0.0;
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp ver1.0
+        $fieldVal= getFieldVal( $recStr, $type, 50 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal= getFieldVal( $recStr, $type, 77 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal= getFieldVal( $recStr, $type, 93 );
+        break;
+
+    case 3:  //  CALCDR
+        $fieldVal = intval( getFieldVal( $recStr, $type, 39 ) ) * 60 + 
+                    intval( getFieldVal( $recStr, $type, 40 ) );
+        break;
+
+    case 10:  //  CALCDR2
+        $fieldVal = intval( getFieldVal( $recStr, $type, 40 ) ) * 60 + 
+                    intval( getFieldVal( $recStr, $type, 41 ) );
+        break;
+
+    case 4:  //  DATCDR
+        $fieldVal = 0;
+        break;
+
+    case 5:  //  SMSCDR
+        $fieldVal = 0;
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal= getFieldVal( $recStr, $type, 77 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal= getFieldVal( $recStr, $type, 93 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal= getFieldVal( $recStr, $type, 66 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal= getFieldVal( $recStr, $type, 76 );
+        break;
+
+    case 11:  //  Cingular Fixed Length
+        $fieldVal= getFieldVal( $recStr, $type, 24 );
+        break;
+
+    case 12:  //  Ciber Type 22
+        $fieldVal= getFieldVal( $recStr, $type, 37 );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #  If the type is one that has the 'mmmmsst' format,
+    #  perform the calculation
+    #
+    if ( $type != 3 && $type != 4 && $type != 5 && $type != 10 )
+    {
+        $seconds = floor( $fieldVal / 1000 ) * 60.0 +
+                        ( $fieldVal % 1000 ) / 10.0;
+    }
+    else
+    {
+        $seconds = $fieldVal;
+    }
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $seconds;
+}
+
+
+function getBilledESN( $recStr, $type )
+{
+    $fieldVal = '';
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 10 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 28 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 32 );
+        break;
+
+    case 3:  //  CALCDR
+        $fieldVal = convertFieldToVal( 'BI', 5, substr( $recStr, 14, 5 ) );
+        break;
+
+    case 10:  //  CALCDR2
+        $fieldVal = convertFieldToVal( 'BI', 5, substr( $recStr, 14, 5 ) );
+        break;
+
+    case 4:  //  DATCDR
+        $fieldVal = getFieldVal( $recStr, $type, 9 );
+        break;
+
+    case 5:  //  SMSCDR
+        $fieldVal = getFieldVal( $recStr, $type, 9 );
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 28 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 32 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 15 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal= getFieldVal( $recStr, $type, 28 );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #echo "fieldVal = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+
+function getBilledIMEI( $recStr, $type )
+{
+    $fieldVal = '';
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 11 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 29 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 33 );
+        break;
+
+    case 3:  //  CALCDR
+        $fieldVal = getFieldVal( $recStr, $type, 9 );
+        break;
+
+    case 10:  //  CALCDR2
+        $fieldVal = getFieldVal( $recStr, $type, 9 );
+        break;
+
+    case 4:  //  DATCDR
+        $fieldVal = getFieldVal( $recStr, $type, 9 );
+        break;
+
+    case 5:  //  SMSCDR
+        $fieldVal = getFieldVal( $recStr, $type, 9 );
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 29 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 33 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 16 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal= getFieldVal( $recStr, $type, 29 );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #echo "fieldVal = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+
+function getServiceFeature( $recStr, $type )
+{
+    $fieldVal = '';
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 82 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 128 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 149 );
+        break;
+
+    case 3:  //  CALCDR
+        $fieldVal = getFieldVal( $recStr, $type, 24 );
+        break;
+
+    case 10:  //  CALCDR2
+        $fieldVal = getFieldVal( $recStr, $type, 25 );
+        break;
+
+    case 4:  //  DATCDR
+        $fieldVal = getFieldVal( $recStr, $type, 25 );
+        break;
+
+    case 5:  //  SMSCDR
+        $fieldVal = getFieldVal( $recStr, $type, 25 );
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 128 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 149 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 114 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal= getFieldVal( $recStr, $type, 123 );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #echo "fieldVal = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+
+function getCallTypeID( $recStr, $type )
+{
+    $fieldVal = '';
+
+    #  Depending on the type, extract
+    #  a field from the record
+    #
+    switch( $type )
+    {
+    case 0:  //  udrsp
+        $fieldVal = getFieldVal( $recStr, $type, 0 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 11 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 14 );
+        break;
+
+    case 3:  //  CALCDR
+        break;
+
+    case 10:  //  CALCDR
+        break;
+
+    case 4:  //  DATCDR
+        break;
+
+    case 5:  //  SMSCDR
+        break;
+
+    case 6:  //  udr ver1.0
+        $fieldVal = getFieldVal( $recStr, $type, 11 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 14 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $fieldVal = getFieldVal( $recStr, $type, 0 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $fieldVal = getFieldVal( $recStr, $type, 11 );
+        break;
+
+    default:
+        $fieldVal = 'ivan';
+        break;
+    }
+
+    #echo "fieldVal = '$fieldVal'", "<br>\n";
+
+    #  Return the field value to
+    #  the caller
+    #
+    return $fieldVal;
+}
+
+
+function getXNumber( $recStr, $type )
+{
+    #  If we are not OldGen, get the call type of
+    #  the record
+    #
+    switch ( $type )
+    {
+    case 0:  //  udrsp ver1.0 
+        $blkCnt = getFieldVal( $recStr, $type, 17 );
+        $recCnt = getFieldVal( $recStr, $type, 18 );
+        break;
+
+    case 1:  //  udr ver1.0 (pipe)
+        $blkCnt = getFieldVal( $recStr, $type, 35 );
+        $recCnt = getFieldVal( $recStr, $type, 36 );
+        break;
+
+    case 2:  //  udr ver2.0 (pipe)
+        $blkCnt = getFieldVal( $recStr, $type, 44 );
+        $recCnt = getFieldVal( $recStr, $type, 45 );
+        break;
+
+    case 6:  //  udr ver1.0
+        $blkCnt = getFieldVal( $recStr, $type, 35 );
+        $recCnt = getFieldVal( $recStr, $type, 36 );
+        break;
+
+    case 7:  //  udr ver2.0
+        $blkCnt = getFieldVal( $recStr, $type, 44 );
+        $recCnt = getFieldVal( $recStr, $type, 45 );
+        break;
+
+    case 8:  //  udrsp ver2.0
+        $blkCnt = getFieldVal( $recStr, $type, 25 );
+        $recCnt = getFieldVal( $recStr, $type, 26 );
+        break;
+
+    case 9:  //  udrch (pipe)
+        $blkCnt = getFieldVal( $recStr, $type, 35 );
+        $recCnt = getFieldVal( $recStr, $type, 36 );
+        break;
+
+    case 3:  //  CALCDR
+        $blkCnt = 0;
+        $recCnt = getFieldVal( $recStr, $type, 30 );
+        break;
+
+    case 10:  //  CALCDR2
+        $blkCnt = 0;
+        $recCnt = getFieldVal( $recStr, $type, 31 );
+        break;
+
+    case 4:  //  DATCDR
+        $blkCnt = 0;
+        $recCnt = getFieldVal( $recStr, $type, 30 );
+        break;
+
+    case 5:   //  SMSCDR
+        $blkCnt = 0;
+        $recCnt = getFieldVal( $recStr, $type, 30 );
+        break;
+    }
+
+    #  Return the field value to
+    #  the caller
+    #
+    return array( $blkCnt, $recCnt );
+}
+
+
+
+function getFieldVal( $recStr, $type, $fieldNo )
+{
+    #  Clear the script timeout value
+    #
+    set_time_limit( 30 );
+
+    #  Retrieve the record structure
+    #  for this record type
+    #
+    $recStruct = getRecStruct( $type );
+
+    #  Clear the field value
+    #
+    $fieldVal = '';
+
+    #  Clear the starting position of the
+    #  field in the record string
+    #
+    $startPos = 0;
+
+    #  If the file record is of type
+    #  UDR pipe, then it is in pipe,
+    #  format and needs to be split
+    #  at each pipe
+    #
+    if ( $type == 1 || $type == 2 || $type == 9 )
+    {
+        #  Break the input line at each
+        #  pipe '|'
+        #
+        $recField = explode( '|', $recStr );
+
+        #  If we are looking at a UDRCH structure
+        #  then compensate for the leading '|'
+        #  by removing it from the top of the
+        #  array
+        #
+        if ( $type == 9 ) array_shift( $recField );
+
+        #  Extract the column information
+        #  form the the record structure array
+        #
+        $colInfo = $recStruct[ $fieldNo ];
+
+        #  Get the field value from
+        #  the exploded record
+        #
+        $fieldVal = $recField[ $fieldNo ];
+    }
+    else
+    {
+        #  Loop through the fields preceeding the
+        #  field we wish to extract, and calculate
+        #  the position in the record string where
+        #  our field begins
+        #
+        for ( $i = 0; $i < $fieldNo; $i++ )
+        {
+            #  Extract the column information
+            #  from the record structure array
+            #
+            $colInfo = $recStruct[ $i ];
+
+            #  Advance the starting position
+            #  of the columns
+            #
+            $startPos += intVal( $colInfo[ 1 ] );
+        }
+
+        #  Extract the column information
+        #  for the specific column the caller
+        #  requested
+        #
+        $colInfo = $recStruct[ $fieldNo ];
+
+        #  Extract and convert the field value
+        #  to a string
+        #
+        $fieldVal = substr( $recStr, $startPos, $colInfo[ 1 ] );
+    }
+
+    #echo "startPos = $startPos<br>\n";
+    #echo "fieldVal (before) = $fieldVal<br>\n";
+    #echo "colInfo = ", $colInfo[ 0 ], ", ", $colInfo[ 1 ], ", ", $colInfo[ 2 ], "<br>\n";
+
+    #  Convert the value to a string
+    #
+    $fieldVal = convertFieldToVal( $colInfo[ 2 ], $colInfo[ 1 ], $fieldVal );
+
+    #  Return to the caller
+    #
+    return $fieldVal;
+}
+
+
+#############################################
+#
+#  Retrieve the record in a file of specific
+#  type at the record number specified
+#
+#############################################
+#
+function getRecord( $fp, $type, $recNum )
+{
+    global   $structSize, $ciberRecNum;
+
+#echo "in the getRecord( $fp, $type, $recNum )...<br>\n";
+
+    $inLine = '';
+
+    #  If we are reading pipe '|' delimited files,
+    #  then we have variable length records,
+    #  so read lines until we get to the
+    #  correct record
+    #
+    if ( $type == 1 || $type == 2 || $type == 9 )
+    {
+        #  Read lines from the file
+        #  up to the record we want
+        #
+        for ( $i = 0; $i <= $recNum; $i++ )
+        {
+            #  Read a line from the input file
+            #  return FALSE on failure
+            #
+            if ( !( $inLine = fgets( $fp ) ) )
+                return FALSE;
+        }
+    }
+    #  If we are looking at a Ciber record
+    #
+    elseif ( $type == 12 )
+    {
+        #  Read lines from the file
+        #  up to the requested record
+        #
+        for ( $i = 0; $i <= $recNum; $i++ )
+        {
+            #  Read a line from the input file
+            #  return FALSE on failure
+            #
+            if ( !( $inLine = fgets( $fp ) ) )
+                return FALSE;
+        }
+
+        #  Set the global "Ciber" record
+        #  number to the current record number
+        #
+        $ciberRecNum = $recNum;
+
+        #  Read lines from the file
+        #  until we get a record 22
+        #
+        while ( intVal( substr( $inLine, 0, 2 ) ) != 22 )
+        {
+            #  Advance the ciber record number
+            #
+            $ciberRecNum++;
+
+            #  Read a line from the input file
+            #  return FALSE on failure
+            #
+            if ( !( $inLine = fgets( $fp ) ) )
+                return FALSE;
+        }
+    }
+    else
+    {
+        #  Position the file pointer to the
+        #  proper record, return FALSE if failure
+        #
+        if ( fseek( $fp, $recNum * $structSize[ $type ], SEEK_SET ) == -1 )
+            return FALSE;
+
+        #  Read a line from the input file
+        #
+        $inLine = fread( $fp, $structSize[ $type ] );
+    }
+
+    return $inLine;
+}
+
+
+##########################################
+#
+#  Return the human readable form a field
+#  given the field, the field type and 
+#  the field size
+#
+##########################################
+#
+function convertFieldToVal( $type, $size, $field )
+{
+    global $debug;
+
+    $retVal = '';
+
+    #  Depending on the field type,
+    #  compute the value of the field
+    #  in ASCII
+    switch( strtoupper( $type ) )
+    {
+    case "AN":  //  alphanumeric
+       $retVal = $field;
+
+       #  If debugging is turned on,
+       #  show the hex dump of the field
+       #
+       if ( $debug )
+       {
+           $hexStr = '';
+
+           for ( $i = 0; $i < strlen( $field ); $i++ )
+           {
+               $hexStr .= sprintf( "%02X ", ord( substr( $field, $i, 1 ) ) );
+           }
+
+           $retVal .= ' - (' . $hexStr . ')';
+       }
+
+       break;
+
+    case "UN":  //  unsigned numeric
+       $retVal = $field;
+       break;
+
+    case "BI":  //  binary data
+
+       $retVal = 0;
+       $hexStr = '[' . strlen( $field ) . '] - ';
+
+       #  Strip off leading and trailing spaces
+       #
+       $field = preg_replace( '/^\x20*(.*?)\x20*$/', '\\1', $field );
+
+       $hexStr .= '{' . strlen( $field ) . '} - ';
+
+       #  Loop through the string,
+       #  and accumulate the binary
+       #  values
+       #
+       for ( $i = 0; $i < strlen( $field ); $i++ )
+       {
+           #  Retrieve the ASCII value of
+           #  the character in the field
+           #
+           $chVal   = ord( substr( $field, $i, 1 ) );
+
+           #  Accumulate the binary numbers
+           #
+           $retVal *= 256;
+           $retVal += $chVal;
+
+           $hexStr .= sprintf( "%02X ", $chVal );
+       }
+
+       $retVal = strval( sprintf( "%.0f", doubleval( $retVal ) ) );
+
+       #  If we are debugging, display the hex code
+       #  after the return value
+       #
+       if ( $debug ) $retVal .= ' - ' . $hexStr;
+
+       break;
+
+    case "SP":  //  signed packed data
+
+       $retVal       = '0';
+       $hexStr = '[' . strlen( $field ) . '] - ';
+     
+       #  Strip off leading spaces
+       #
+       $field = preg_replace( '/^\x20*(.*?)$/', '\\1', $field );
+
+       $hexStr .= '{' . strlen( $field ) . '} - ';
+
+       #  Each character in the SP format
+       #  is a BSD represenation of the
+       #  number.  Loop through each
+       #  character, and concatinate the
+       #  BSD reprentation of the character
+       #  to our return value.  The last
+       #  character only uses the high-nibble
+       #  as a digit
+       #
+       for ( $i = 0; $i < $size - 1; $i++ )
+       {
+           #  Retrieve the ASCII value of
+           #  the character in the field
+           #
+           $chVal   = ord( substr( $field, $i, 1 ) );
+
+           #  Add the 2-digit BSD to the
+           #  end of the return value string
+           #
+           $retVal .= sprintf( "%02x", $chVal );
+
+           #$hexStr .= sprintf( "%02x ", $chVal );
+       }
+
+       #  Use only the high nibble of the last
+       #  character in the field as the last digit
+       #
+       $retVal .=  ord( substr( $field, $size - 1, 1 ) ) >> 4;
+
+       $hexStr .= sprintf( "%02x", ord( substr( $field, $size - 1 , 1 ) ) );
+     
+       if ( $debug ) $retVal .= ' - ' . $hexStr;
+
+       break;
+    }
+
+    return $retVal;
+}
+
+
+##############################################
+#
+#  Return the record structure array
+#  associated with a particular record type
+#
+##############################################
+#
+function getRecStruct( $type )
+{
+    #  Define our global record format structures
+    #
+    global $udrspStruct, $udrsp2Struct, $udrStruct, $udr2Struct, $calCDR2Struct;
+    global $calCDRStruct, $datCDRStruct, $smsCDRStruct, $udrchStruct;
+    global $cingFixStruct, $cib0222Struct;
+
+    #  Depending on the record type
+    #  of the file, assign our
+    #  record structure
+    #
+    switch ( $type )
+    {
+    case 0:  //  udrsp v1.0
+        $recStruct = $udrspStruct;
+        break;
+    
+    case 1:  //  udr v1.0 (pipe)
+        $recStruct = $udrStruct;
+        break;
+    
+    case 2:  //  udr v2.0 (pipe)
+        $recStruct = $udr2Struct;
+        break;
+    
+    case 3:  //  CALCDR
+        $recStruct = $calCDRStruct;
+        break;
+    
+    case 10:  //  CALCDR2
+        $recStruct = $calCDR2Struct;
+        break;
+    
+    case 4:  //  DATCDR
+        $recStruct = $datCDRStruct;
+        break;
+    
+    case 5:  //  SMSCDR
+        $recStruct = $smsCDRStruct;
+        break;
+    
+    case 6:  //  udr
+        $recStruct = $udrStruct;
+        break;
+    
+    case 7:  //  udr v2.0
+        $recStruct = $udr2Struct;
+        break;
+
+    case 8:  //  udrsp v2.0
+        $recStruct = $udrsp2Struct;
+        break;
+
+    case 9:  //  udrch v1.0 (pipe)
+        $recStruct = $udrchStruct;
+        break;
+
+    case 11:  //  Cingular Fixed Rec
+        $recStruct = $cingFixStruct;
+        break;
+
+    case 12:  //  Ciber Type 22
+        $recStruct = $cib0222Struct;
+        break;
+
+    default:
+        #  Default to UDRSP if unkown
+        #
+        $recStruct = $udrspStruct;
+        break;
+    }
+
+    #  Return the record structure
+    #  to the caller
+    #
+    return $recStruct;
+}
+
+
+?>

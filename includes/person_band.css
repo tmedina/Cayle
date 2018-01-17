@@ -1,0 +1,331 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+    color:#003366;
+    background-color:#E7EBEE;
+    font-size:13px;
+}
+
+.parity_0{background-color:#fff;}
+.unpaid{text-align:center;padding:5px 15px;font-size:14px;}
+
+
+td.td2 {
+	font-family: Arial, Helvetica, sans-serif; 
+	color:#FFFFFF;
+	font-weight:bold;
+	font-size:14px;
+	border-style:none;
+
+}
+
+table {
+
+border-collapse: collapse;
+
+}
+
+
+
+
+table.view {
+    border-width:thin;
+    border-collapse: collapse;
+}
+
+td {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight:normal;
+    font-size:13px;
+    border-style:none;
+    
+
+}
+
+th {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight:bold;
+    font-size:13px;
+    border-style:none;
+    
+	
+	
+}
+
+
+
+a {text-decoration:none;
+   font-weight:bold; }
+
+a:link {color:#7C3B36}
+
+a:visited {color:#7C3B36}
+
+a:hover {color:#003366;}
+
+a.link2:link {color:#FFFFFF;}
+
+a.link2:visited {color:#FFFFFF;}
+
+a.link2:hover {color:#b2c5dc;}
+
+
+#page {
+    
+  width:900px;
+  padding-left:35px;
+    
+}
+
+#invoice {
+    
+    width:1200px;
+    padding-left:35px;
+    
+   
+   
+}
+
+
+
+#first_links {
+    position:relative;
+	top:-14px;
+    left:-235px;
+
+    }
+
+#links {
+    position:relative;
+	top:-14px;
+    left:-155px;
+    
+    }
+
+#links_create {
+    position:relative;
+	top:-14px;
+    left:-315px;
+
+    }
+
+#links_create_band {
+    position:relative;
+	top:-14px;
+    left:-310px;
+
+    }
+
+#links_report {
+    position:relative;
+	top:-100px;
+    left:-500px;
+
+    }
+
+#links_report_new {
+    position:relative;
+	top:-14px;
+    left:-270px;
+
+    }
+
+#dropdown {
+    position:relative;
+	top:0px;
+	padding-left:40px;
+	padding-right:15px;
+	padding-bottom:35px;
+	padding-top:0px;
+
+}
+
+#text {
+	float:left;
+    position:relative;
+	top:0px;
+	padding-left:35px;
+	padding-right:15px;
+	padding-bottom:35px;
+	padding-top:0px;
+	}
+
+#band {
+    float:right;
+    position:relative;
+    padding-top:0px;
+	padding-left:50px;
+	padding-right:0px;
+	padding-bottom:25px;
+	
+    }
+
+#band_dropdown {
+    float:right;
+    position:relative;
+    padding-top:0px;
+	padding-left:35px;
+	padding-right:0px;
+	padding-bottom:25px;
+
+    }
+
+#member {
+    position:relative;
+	clear:both;
+    padding-left:35px;
+    }
+
+#err_msg {
+    border: solid red;
+    color:red;
+    font-weight:bold;
+    padding: 5px;
+    margin: 5px;
+}
+
+#warn_msg {
+    border: solid orange;
+	color:orange;
+	font-weight:bold;
+    padding: 5px;
+    margin: 5px;
+}
+
+table.invoice {
+    border-style:solid;
+    border-width:thin;
+    border-collapse:collapse;
+   
+}
+
+tr.invoice {
+    border-style:solid;
+    border-width:thin;
+    border-collapse:collapse;
+
+}
+    
+
+
+th.invoice {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight:bold;
+    font-size:14px;
+    border-style:solid;
+    border-width:thin;
+    padding:5px;
+    
+}
+
+td.invoice {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight:normal;
+    font-size:14px;
+    border-style:solid;
+    border-width:thin;
+    padding:3px;
+
+}
+
+table.invoice_trans {
+    width:100%;
+    border-style:solid;
+    border-width:thin;
+    border-collapse:collapse;
+}
+
+th.invoice_type {
+    border-style:solid;
+    border-width:thin;
+    width:15%;
+}
+th.invoice_desc {
+    border-style:solid;
+    border-width:thin;
+    width:55%;
+}
+th.invoice_amt {
+    border-style:solid;
+    border-width:thin;
+    width:15%;
+}
+th.invoice_action {
+    border-style:solid;
+    border-width:thin;
+    width:15%;
+}
+tr.invoice_trans {
+    border-style:solid;
+    border-width:thin;
+}
+
+td.invoice_type {
+    border-style:solid;
+    border-width:thin;
+}
+
+td.invoice_desc {
+    border-style:solid;
+    border-width:thin;
+}
+
+td.invoice_amt {
+    text-align:right;
+    border-style:solid;
+    border-width:thin;
+}
+
+td.invoice_amt_neg {
+    text-align:right;
+    border-style:solid;
+    border-width:thin;
+    color:red;
+}
+
+td.invoice_action {
+    text-align:center;
+    border-style:solid;
+    border-width:thin;
+}
+
+legend {
+
+    font-weight:bold;
+    font-size:14px;
+}
+
+fieldset.payment_info {
+    width:560px;
+    height:275px;
+
+}
+
+fieldset.total_info {
+    width:560px;
+    height:275px;
+
+}
+
+#payment_info {
+    float:left;
+    position:relative;   
+    padding-bottom:25px;
+}
+
+#total_info {
+    float:right;
+    position:relative;
+    padding-bottom:25px;
+
+}
+
+#open_res {
+    position:relative;
+	clear:both;
+
+}
+
+}
+
+
+

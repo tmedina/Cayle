@@ -1,0 +1,157 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+    color:#003366;
+    background-color:#E7EBEE;
+    font-size:13px;
+}
+
+td.td2 {
+	font-family: Arial, Helvetica, sans-serif; 
+	color:#FFFFFF;
+	font-weight:bold;
+	font-size:14px;
+}
+
+td {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight:normal;
+    font-size:13px;
+}
+
+a {text-decoration:none;
+   font-weight:bold; }
+
+a:link {color:#7C3B36}
+
+a:visited {color:#7C3B36}
+
+a:hover {color:#003366;}
+
+a.link2:link {color:#FFFFFF;}
+
+a.link2:visited {color:#FFFFFF;}
+
+a.link2:hover {color:#b2c5dc;}
+
+p.error {
+
+    color:red;
+}
+
+h3.error {
+
+   color:red;
+}
+
+
+#page {
+    
+  width:900px;
+  padding-left:35px;
+    
+}
+
+#res_links {
+    position:relative;
+	top:-14px;
+    left:-310px;
+
+    }
+
+#first_links {
+    position:relative;
+	top:-14px;
+    left:-285px;
+
+    }
+
+#links {
+    position:relative;
+	top:-14px;
+    left:-155px;
+    
+    }
+
+#override_links {
+    position:relative;
+	top:-14px;
+    left:-270px;
+
+    }
+
+#links_create {
+    position:relative;
+	top:-14px;
+    left:-365px;
+
+    }
+
+#links_create_band {
+    position:relative;
+	top:-14px;
+    left:50px;
+
+    }
+
+#search_box {
+    position:relative;
+    top:-60px;
+    padding-top:35px;
+	padding-left:20px;
+	padding-right:0px;
+	padding-bottom:0px;
+
+    }
+
+#dropdown {
+    position:relative;
+	top:0px;
+	padding-left:20px;
+	padding-right:15px;
+	padding-bottom:35px;
+	padding-top:0px;
+
+}
+
+#text {
+	float:left;
+    position:relative;
+	top:0px;
+	padding-left:25px;
+	padding-right:15px;
+	padding-bottom:35px;
+	padding-top:0px;
+	}
+
+#band {
+    float:right;
+    position:relative;
+    padding-top:0px;
+	padding-left:60px;
+	padding-right:0px;
+	padding-bottom:25px;
+
+    }
+
+#band_dropdown {
+    float:right;
+    position:relative;
+    padding-top:0px;
+	padding-left:35px;
+	padding-right:0px;
+	padding-bottom:25px;
+
+    }
+
+
+
+#member {
+    position:relative;
+	clear:both;
+    padding-left:35px;
+    }
+
+}
+
+
+
