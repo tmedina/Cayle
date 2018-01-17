@@ -45,21 +45,11 @@ $room = get_form_var('room', 'int');
 $id = get_form_var('id', 'int');
 $series = get_form_var('series', 'int');
 
-// If we dont know the right date then make it up
-if (!isset($day) or !isset($month) or !isset($year))
-{
-  $day   = date("d");
-  $month = date("m");
-  $year  = date("Y");
-}
+
 if (empty($area))
 {
   $area = get_default_area();
 }
-print_header($day, $month, $year, $area, isset($room) ? $room : "");
-
-include ("../includes/header.inc");
-echo "<div id=\"page\" align=\"center\">";
 
 
 if (empty($series))
@@ -163,6 +153,18 @@ $band_name_disp = $band_name == "None" ? "" : "($band_name)";
 
 $start_time   = $row['start_time'];
 $end_time     = $row['end_time'];
+
+// If we dont know the right date then use the end date of the reservation 
+if (!isset($day) or !isset($month) or !isset($year))
+{
+  $day   = date("d", $end_time);
+  $month = date("m", $end_time);
+  $year  = date("Y", $end_time);
+}
+print_header($day, $month, $year, $area, isset($room) ? $room : "");
+include ("../includes/header.inc");
+
+echo "<div id=\"page\" align=\"center\">";
 
 if (isset($row['actual_start_time']) || $row['actual_start_time'] != NULL )
 {
