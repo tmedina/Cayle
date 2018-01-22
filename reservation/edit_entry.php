@@ -545,6 +545,7 @@ $room_names = sql_query1("SELECT room_name FROM $tbl_room WHERE id=$room_id");
 		<option <?php echo $room_names=="Room 8" ? "selected='true'" :  ""; ?> value="2">Room 8</option>
 		<option <?php echo $room_names=="Room 9" ? "selected='true'" :  ""; ?> value="3">Room 9</option>
 		<option <?php echo $room_names=="Room 10" ? "selected='true'" :  ""; ?> value="4">Room 10</option>
+		<option <?php echo $room_names=="Library" ? "selected='true'" :  ""; ?> value="5">Library</option>
 		</select>
 	</div><!--end "event_type" div-->
     <div id="event_picker">
