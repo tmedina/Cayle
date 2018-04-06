@@ -16,3 +16,18 @@ Installation
 Requires XAMPP 1.7 on a case-insensitive filesystem (tested on Windows XP and Windows 7).
 
 Make sure to add the mysql username/password of your installation in the file include/config.inc.
+
+In xampp/php/ replace the stock php.ini file with the one from the repo's environment/ directory.
+
+Copy the directory xampp/MYSQL_BACKUPS from the repo's environment/ directory to the xampp/ directory of the installation.
+
+Unzip and copy the phpMyBackupPro directory from environment/ to the xampp/htdocs/ directory of the installation.
+
+Backup Script
+=============
+To ensure nightly backups, use the following script in the Task Manager (windows)
+'''
+C:\xampp\php\php.exe C:\xampp\htdocs\phpMyBackupPro\backup.php nucis_space_tables_prod 1 1 1 1 C:\xampp\MYSQL_BACKUPS\father\
+'''
+
+
