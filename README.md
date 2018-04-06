@@ -26,8 +26,9 @@ Unzip and copy the phpMyBackupPro directory from environment/ to the xampp/htdoc
 Backup Script
 =============
 To ensure nightly backups, use the following script in the Task Manager (windows)
-'''
+
+`
 C:\xampp\php\php.exe C:\xampp\htdocs\phpMyBackupPro\backup.php nucis_space_tables_prod 1 1 1 1 C:\xampp\MYSQL_BACKUPS\father\
-'''
+`
 
 
