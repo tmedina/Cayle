@@ -979,9 +979,6 @@ $room_names = sql_query1("SELECT room_name FROM $tbl_room WHERE id=$room_id");
     <input type="hidden" name="rooms" value="<?php echo $room_id?>">
     <input type="hidden" name="reservation_status" value="<?php echo $reservation_status?>">
     <input type="hidden" name="is_pending" value="<?php echo $is_pending?>">
-    <input type="hidden" name="day" value="<?php echo $_GET['day']?>">
-    <input type="hidden" name="month" value="<?php echo $_GET['month']?>">
-    <input type="hidden" name="year" value="<?php echo $_GET['year']?>">
 
     <?php if(isset($id) && !isset($copy)) echo "<input type=\"hidden\" name=\"id\"        value=\"$id\">\n";
     ?>
