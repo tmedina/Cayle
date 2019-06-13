@@ -55,124 +55,12 @@ $display_block .= "<input type='radio' name='granularity' checked= 'true' value=
 //$display_block .= "<input type='radio' name='granularity' value='monthly'>Monthly</input>";
 //start date dropdowns
 $display_block .= "<h3>Select a start date</h3>";
-$display_block .=
-"<select name=\"start_month\">
-    <option value=\"0\">Month</option>
-	<option value=\"01\">January</option>
-	<option value=\"02\">February</option>
-	<option value=\"03\">March</option>
-	<option value=\"04\">April</option>
-	<option value=\"05\">May</option>
-	<option value=\"06\">June</option>
-	<option value=\"07\">July</option>
-	<option value=\"08\">August</option>
-	<option value=\"09\">September</option>
-	<option value=\"10\">October</option>
-	<option value=\"11\">November</option>
-	<option value=\"12\">December</option>
-</select>
-<select name=\"start_day\">
-    <option value=\"0\">Day</option>
-	<option value=\"01\">1</option>
-	<option value=\"02\">2</option>
-	<option value=\"03\">3</option>
-	<option value=\"04\">4</option>
-	<option value=\"05\">5</option>
-	<option value=\"06\">6</option>
-	<option value=\"07\">7</option>
-	<option value=\"08\">8</option>
-	<option value=\"09\">9</option>
-	<option value=\"10\">10</option>
-	<option value=\"11\">11</option>
-	<option value=\"12\">12</option>
-	<option value=\"13\">13</option>
-	<option value=\"14\">14</option>
-	<option value=\"15\">15</option>
-	<option value=\"16\">16</option>
-	<option value=\"17\">17</option>
-	<option value=\"18\">18</option>
-	<option value=\"19\">19</option>
-	<option value=\"20\">20</option>
-	<option value=\"21\">21</option>
-	<option value=\"22\">22</option>
-	<option value=\"23\">23</option>
-	<option value=\"24\">24</option>
-	<option value=\"25\">25</option>
-	<option value=\"26\">26</option>
-	<option value=\"27\">27</option>
-	<option value=\"28\">28</option>
-	<option value=\"29\">29</option>
-	<option value=\"30\">30</option>
-	<option value=\"31\">31</option>
-</select>
-<select name=\"start_year\">
-    <option value=\"0\">Year</option>";
-	for($i = 2009; $i<(date("Y",time())+4); $i++){
-			$display_block .= "<option value=\"".$i."\">".$i."</option>";
-	}
-$display_block .= "</select>";
-
+$display_block .= "<input type='date' name='start_date' />";
 $display_block .= "<br />";
 
 //end date dropdowns
 $display_block .= "<h3>Select an end date</h3>";
-$display_block .=
-"<select name=\"end_month\">
-    <option value=\"0\">Month</option>
-	<option value=\"01\">January</option>
-	<option value=\"02\">February</option>
-	<option value=\"03\">March</option>
-	<option value=\"04\">April</option>
-	<option value=\"05\">May</option>
-	<option value=\"06\">June</option>
-	<option value=\"07\">July</option>
-	<option value=\"08\">August</option>
-	<option value=\"09\">September</option>
-	<option value=\"10\">October</option>
-	<option value=\"11\">November</option>
-	<option value=\"12\">December</option>
-</select>
-<select name=\"end_day\">
-    <option value=\"0\">Day</option>
-	<option value=\"01\">1</option>
-	<option value=\"02\">2</option>
-	<option value=\"03\">3</option>
-	<option value=\"04\">4</option>
-	<option value=\"05\">5</option>
-	<option value=\"06\">6</option>
-	<option value=\"07\">7</option>
-	<option value=\"08\">8</option>
-	<option value=\"09\">9</option>
-	<option value=\"10\">10</option>
-	<option value=\"11\">11</option>
-	<option value=\"12\">12</option>
-	<option value=\"13\">13</option>
-	<option value=\"14\">14</option>
-	<option value=\"15\">15</option>
-	<option value=\"16\">16</option>
-	<option value=\"17\">17</option>
-	<option value=\"18\">18</option>
-	<option value=\"19\">19</option>
-	<option value=\"20\">20</option>
-	<option value=\"21\">21</option>
-	<option value=\"22\">22</option>
-	<option value=\"23\">23</option>
-	<option value=\"24\">24</option>
-	<option value=\"25\">25</option>
-	<option value=\"26\">26</option>
-	<option value=\"27\">27</option>
-	<option value=\"28\">28</option>
-	<option value=\"29\">29</option>
-	<option value=\"30\">30</option>
-	<option value=\"31\">31</option>
-</select>
-<select name=\"start_year\">
-    <option value=\"0\">Year</option>";
-	for($i = 2009; $i<(date("Y",time())+4); $i++){
-			$display_block .= "<option value=\"".$i."\">".$i."</option>";
-	}
-$display_block .= "</select>";
-
+$display_block .= "<input type='date' name='end_date' />";
 $display_block .= "<br /></div>";
 
 
@@ -262,62 +150,9 @@ $granularity = $_POST['granularity'];
 $room_id = $_POST['roomSet'];
 //$room_id = "";
 
-$start_date = $_POST['start_date'];//do we even use these??
-$end_date = $_POST['end_date'];
-if($DEBUG){
-	printf("Start DATE: %d, End DATE: %d</br>", $start_date, $end_date);
-}
 
-//get start month
-$start_month = $_POST['start_month'];
-if($start_month == 0) $start_month = date(n, time());
-
-//get start day
-$start_day = $_POST['start_day'];
-if($DEBUG){
-	printf("Start DAY: %d, End DAY: %d</br>", $start_day, $_POST['end_day']);
-}
-if($granularity == "daily"){
-	//if($start_day == 0) $start_day = date(j, time());
-	if($start_day == 0) $start_day = 1;
-}
-else $start_day = 1;
-
-
-//get start year
-$start_year = $_POST['start_year'];
-if($start_year == 0) $start_year = date(Y, time());//start_year = this year
-
-//get end month
-$end_month = $_POST['end_month'];
-if($end_month == 0) $end_month = date(n, time());
-
-//get end day
-$end_day = $_POST['end_day'];
-if($granularity == "daily"){
-	//if($end_day == 0) $end_day = date(j, time());
-	if($end_day == 0) $end_day = 31;
-}
-else $end_day = 31;
-
-//get end year
-$end_year = $_POST['end_year'];
-if($end_year == 0){
-		if($start_month > $end_month) $end_year = $start_year+1;
-		else $end_year = $start_year;
-}
-
-//validate dates
-//printf("%d\n", $end_month);
-//printf("%d\n", $end_year);
-while(!checkdate($start_month, $start_day, $start_year)){
-		$start_day--;
-		//printf("decreased start day\n");
-}
-while(!checkdate($end_month, $end_day, $end_year)){
-		$end_day--;
-		//printf("decreased end day:%d/%d/%d\n",$end_month, $end_day, $end_year );
-}
+parse_date($_POST['start_date'], $start_month, $start_day, $start_year);
+parse_date($_POST['end_date'], $end_month, $end_day, $end_year);
 
 //actual end day is 2AM the next calendar day
 $actual_end_day = $end_day+1;

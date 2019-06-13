@@ -26,6 +26,19 @@ if((!isset($_SESSION["logged"])) && !$_SESSION["logged"])
 
 include ("../reservation/config.inc.php");
 
+// Safely parse a date string in the form YYYY-MM-DD and assign year month and day to reference variables
+function parse_date($date, &$month, &$day, &$year)
+{
+	    $date != "" or die("ERROR invalid date submitted: ".$date . " Must be in the form YYYY-MM-DD");
+	    $date_split = explode("-", $date);
+	    !empty($date_split) && sizeof($date_split) == 3 or die("ERROR invalid date submitted: ".$date . " Must be in the form YYYY-MM-DD");
+      $year = $date_split[0];
+      $month = $date_split[1];
+      $day = $date_split[2];
+	    strlen($month) == 2 or die("ERROR invalid date submitted: ".$date . " Must be in the form YYYY-MM-DD");
+	    strlen($day) == 2 or die("ERROR invalid date submitted: ".$date . " Must be in the form YYYY-MM-DD");
+	    strlen($year) == 4 or die("ERROR invalid date submitted: ".$date . " Must be in the form YYYY-MM-DD");
+}
 
 // This function converts period (utf date format) into regular date time string format (yyyy-mm-dd hh:mm:ss)
 // if the period is between midnight and 02:00 am, the date will be increased by 1
