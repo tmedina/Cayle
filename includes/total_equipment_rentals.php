@@ -66,18 +66,10 @@ if (isset($_POST['run_report']))
 {
 
 $equipment_id = $_POST['sel_id'];
-$start_date = $_POST['start_date'];
-$end_date = $_POST['end_date'];
 
-$start_date_split = explode("-", $start_date);
-$start_month = $start_date_split[1];
-$start_day = $start_date_split[2];
-$start_year = $start_date_split[0];
 
-$end_date_split = explode("-", $end_date);
-$end_month = $end_date_split[1];
-$end_day = $end_date_split[2];
-$end_year = $end_date_split[0];
+parse_date($_POST['start_date'], $start_month, $start_day, $start_year);
+parse_date($_POST['end_date'], $end_month, $end_day, $end_year);
 
 $run_csv = $_POST['run_csv'];
 //actual end day is 2AM the next calendar day
