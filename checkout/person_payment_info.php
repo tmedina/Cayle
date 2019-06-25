@@ -30,7 +30,7 @@ $display_block = "";
             }
 
         //get all unpaid reservations associated with this person
-        $get_unpaid_reservations = $get_reservation_info = "SELECT id, room_id, reservation_status, start_time FROM reservation_entry WHERE reservation_status='UNPAID' AND is_cancelled=0 AND id<>$reservation_id AND person_id = $person_id ORDER BY start_time ASC";
+        $get_unpaid_reservations = $get_reservation_info = "SELECT id, room_id, reservation_status, start_time FROM reservation_entry WHERE reservation_status <> 'CLOSED' AND person_id = $person_id ORDER BY start_time ASC";
         $get_unpaid_reservations_res = mysql_query($get_unpaid_reservations) or die ("ERROR: " . mysql_errno() . "-" . mysql_error() );
         //echo $get_unpaid_reservations;
 
