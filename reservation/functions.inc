@@ -1051,4 +1051,19 @@ function show_color_legend ()
     //    echo $color[1];
     //}
 }
+
+// Return an array of all names of the practice rooms defined in reservation_room table
+function get_all_room_names()
+{
+	$all_rooms_names_obj = sql_query("SELECT room_name FROM reservation_room");
+	$all_room_names = array();
+	
+	
+	for($i=0; $i < sql_count($all_rooms_names_obj); $i++) 
+	{
+		array_push($all_room_names, array_pop(sql_row($all_rooms_names_obj, $i)));
+	}
+
+	return $all_room_names;
+}
 ?>

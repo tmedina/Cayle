@@ -513,10 +513,11 @@ else
 }
 
 $room_names = sql_query1("SELECT room_name FROM $tbl_room WHERE id=$room_id");
+$all_room_names = get_all_room_names();
 
 ?>
 
-<form class="form_general" id="main" action="edit_entry_handler.php" method="get">
+<form class="form_general" id="main" action="edit_entry_handler.php" method="post">
   <fieldset>
   <legend><?php echo get_vocab($token) . " - " . $room_names ?></legend>
 
@@ -541,11 +542,18 @@ $room_names = sql_query1("SELECT room_name FROM $tbl_room WHERE id=$room_id");
     <div id="room_picker">
 	    <label>Room:</label>
 		<select id="room_id" name="room_id" >
-		<option <?php echo $room_names=="Room 7" ? "selected='true'" :  ""; ?> value="1">Room 7</option>
-		<option <?php echo $room_names=="Room 8" ? "selected='true'" :  ""; ?> value="2">Room 8</option>
-		<option <?php echo $room_names=="Room 9" ? "selected='true'" :  ""; ?> value="3">Room 9</option>
-		<option <?php echo $room_names=="Room 10" ? "selected='true'" :  ""; ?> value="4">Room 10</option>
-		<option <?php echo $room_names=="Library" ? "selected='true'" :  ""; ?> value="5">Library</option>
+		<?php
+		foreach($all_room_names as $i => $room_name)
+		{
+			$room_index = $i + 1;
+			echo "<option ";
+			if($room_names==$room_name)
+			{
+				echo"selected='true'";
+			}
+			echo "value='$room_index'>$room_name</option>";
+		}
+		?>
 		</select>
 	</div><!--end "event_type" div-->
     <div id="event_picker">
