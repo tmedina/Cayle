@@ -243,7 +243,12 @@ function calc_utf_date_diff( $upper_date, $lower_date )
     return $minutes_diff;
 }
 
-function calc_room_charge ( $reservation_id )
+/* Calculate the charge for a room rental.
+ * inputs:
+ * 	$reservation_id: the unique id of the reseravation to be calculated
+ * 	$discount_type: 0 = no discount; 1 = drummer rate; 2 = employee rate
+ */
+function calc_room_charge ( $reservation_id, $discount_type = 0 )
 {
     // get the room transaction details
     $query = "SELECT re.room_id, room_name, room_charge_day, room_charge_night, room_charge_drummer,
@@ -253,11 +258,9 @@ function calc_room_charge ( $reservation_id )
                WHERE rm.id = re.room_id
                  AND re.id =  $reservation_id";
 
-    //DEBUG
-    //echo $query;
-
     // die and show mysql error number and messages, if there is any error with query
     $result = mysql_query($query) or die ("ERROR: " . mysql_errno() . "-" . mysql_error() );
+
 
     if (mysql_num_rows($result)>0)
     {
@@ -275,69 +278,72 @@ function calc_room_charge ( $reservation_id )
             $day_number     = date('N', $str_start_time);
             $start_hour     = date('H', $str_start_time);
             $end_hour       = date('H', $str_end_time);
+            $start_min     = date('i', $str_start_time);
+            $end_min       = date('i', $str_end_time);
             $room_charge_drummer = $row['room_charge_drummer'];
             $room_charge_employee_day = $row['room_charge_employee_day'];
             $room_charge_employee_night = $row['room_charge_employee_night'];
 
-            //echo "start time: " . utf_period_2_date($start_time) . " end_time: " . utf_period_2_date($end_time) . "<br/>";
+            // Check Discounted Rates
+            if ($discount_type == 1)
+            {
+              // it's a drummer rate
+              $room_charge_day =  $room_charge_drummer;
+              $room_charge_night =  $room_charge_drummer;
+            }
+            elseif ($discount_type == 2)
+            {
+              // it's an employee rate
+              $room_charge_day = $room_charge_employee_day;
+              $room_charge_night = $room_charge_employee_night;
 
-            //echo "day number: $day_number start hour: $start_hour <br/>";
-
-            //TEST
-            //echo "debug: day_number is manually set to 4<br/>";
-            //$day_number = 4;
+            }
 
             // weekdays or weekend
-            //
             if ( $day_number > 5 ) //weekend
             {
-                //echo "weekend charge";
-                $charge = $duration_hour * $room_charge_night;
-                $duration_night = $duration_hour;
+              //echo "weekend charge";
+              $charge = $duration_hour * $room_charge_night;
+              $duration_night = $duration_hour;
             }
             else // weekday
             {
-                // start time after 5pm, use night charge
-                if ( $start_hour >= 17 || ($start_hour >= 0 && $start_hour <= 2)  )
-                {
-                    //echo "weekday night charge";
-                    $charge = $duration_hour * $room_charge_night;
-                    $duration_night = $duration_hour;
-                }
-                else // start time before 5pm, use day charge
-                {
-                    if ( $end_hour <= 17 || ($end_hour >= 0 && $end_hour <= 2) ) //end time before 5 pm
-                    {
-                        //echo "weekday day charge";
-                        $charge = $duration_hour * $room_charge_day;
-                        $duration_day = $duration_hour;
-                    }
-                    else // mixed
-                    {
+              // add half hours
+              $start = $start_hour;
+              $end = $end_hour;
+              if($start_min == "30") $start += 0.5;
+              if($end_min == "30") $end += 0.5;
 
-                        $duration_day = 17 - $start_hour;
+              // Use a 26-hour clock for times past midnight
+              if($start < 3 && $start >= 0) $start += 24;
+              if($end < 3 && $start >= 0) $end += 24;
 
-                        if ($end_hour == 0)
-                        {
-                            $end_hr = 24;
-                        }
-                        elseif ($end_hour == 1)
-                        {
-                            $end_hr = 25;
-                        }
-                        elseif ($end_hour == 2)
-                        {
-                            $end_hr = 26;
-                        }
-                        $duration_night = $end_hour - 17;
+              $duration_day = max(0, 17 - $start);
+              $duration_night = max(0, $end - 17);
+              if($duration_day == 0)
+              {
+                // All nightime hours
+                $duration_night = $end - $start;
+              }
+              else if($duration_night == 0)
+              {
+                // All daytime hours
+                $duration_day = $end - $start;
+              }
 
+              $charge = ($duration_day * $room_charge_day) + ($duration_night * $room_charge_night);
 
-                        $charge = ($duration_day * $room_charge_day) + ($duration_night * $room_charge_night);
+              /*
+              echo "Start time: ".$start."<br/>";
+              echo "End time: ".$end."<br/>";
+              echo "Duration Day: ".$duration_day."<br/>";
+              echo "Room Charge Day: ".$room_charge_day."<br/>";
+              echo "Duration Night: ".$duration_night."<br/>";
+              echo "Room Charge Night: ".$room_charge_night."<br/>";
+              echo "Charge: ".$charge."<br/>";
+              */
+            }
 
-                        //echo "weekday day $room_charge_day and night charge $room_charge_night - dur day: $duration_day dur night: $duration_night <br/>";
-                    }
-                }
-            }//weekday
 
             //DEBUG
             //echo "<br/><br/> <b> $room_name: $duration_hour hr  = $ $charge </b>";
