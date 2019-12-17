@@ -21,10 +21,10 @@ In xampp/php/ replace the stock php.ini file with the one from the repo's enviro
 
 Copy the directory xampp/MYSQL_BACKUPS from the repo's environment/ directory to the xampp/ directory of the installation.
 
-Unzip and copy the phpMyBackupPro directory from environment/ to the xampp/htdocs/ directory of the installation.
-
 Backup Script
 =============
+Unzip and copy the phpMyBackupPro directory from environment/ to the xampp/htdocs/ directory of the installation.
+
 Cayle uses phpMyBackupPro for backups. Make sure the phpMyBackupPro directory is unzipped into the htdocs folder, then 
 navigate in a browser to <server_address>/phpMyBackupPro/config.php and ensure the MySQL credentials are entered into the 
 appropriate fields and click on save.
