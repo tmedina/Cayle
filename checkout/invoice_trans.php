@@ -47,7 +47,7 @@ echo "</tr>";
 
 /* Display Room Discount */
     // Show all transaction with room id, misc charges of room rates
-    $query = "SELECT mc.desc, rt.amount, rt.id AS rt_remove_id
+    $query = "SELECT mc.description, rt.amount, rt.id AS rt_remove_id
                 FROM reservation_transaction rt, misc_charge mc, misc_charge_type mct
                WHERE rt.misc_charge_id = mc.id
                  AND mc.misc_charge_type_id = mct.id
@@ -63,7 +63,7 @@ echo "</tr>";
         {
             echo "<tr class=invoice_trans>";
             echo "<td class=invoice_type>Room Discount</td>";
-            echo "<td class=invoice_desc>" . $row['desc'] . "</td>";
+            echo "<td class=invoice_desc>" . $row['description'] . "</td>";
             echo "<td class=invoice_amt_neg>" . number_format($row['amount'],2) . "</td>";
             echo "<td class=invoice_action><a href=invoice.php?reservation_id=$reservation_id&rt_remove_id=$row[rt_remove_id]>Remove</a></td>";
             echo "</tr>";

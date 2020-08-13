@@ -155,7 +155,7 @@ else
     }
 
     // Show all transaction with room id, misc charges of room rates
-    $query = "SELECT mc.desc, rt.amount, rt.id AS rt_remove_id
+    $query = "SELECT mc.description, rt.amount, rt.id AS rt_remove_id
                 FROM reservation_transaction rt, misc_charge mc, misc_charge_type mct
                WHERE rt.misc_charge_id = mc.id
                  AND mc.misc_charge_type_id = mct.id
@@ -175,7 +175,7 @@ else
 //        {
 
 //            echo "<tr>";
-//            echo "<td>" . $row['desc'] . "</td>";
+//            echo "<td>" . $row['description'] . "</td>";
 //            echo "<td>" . "$" . number_format($row['amount'],2) . "</td>";
 //            echo "<td><a href=invoice.php?reservation_id=$reservation_id&rt_remove_id=$row[rt_remove_id]>Remove</a></td>";
 //            echo "</tr>";
@@ -195,7 +195,7 @@ else
         <?php
     if ( ! $hide_apply_discount && $cancel_id == "")
     {
-        $query = "SELECT mc.id AS room_mc_id, mc.name AS mc_name, mc.desc AS mc_desc
+        $query = "SELECT mc.id AS room_mc_id, mc.name AS mc_name, mc.description AS mc_desc
                     FROM misc_charge mc, misc_charge_type mct
                    WHERE mc.misc_charge_type_id = mct.id
                      AND mct.name = 'room_rates'";
