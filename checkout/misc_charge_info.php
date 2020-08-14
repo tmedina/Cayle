@@ -575,7 +575,7 @@ function show_equip_charge_list ( $reservation_id )
             <input type=hidden name=action value="add_equip_charge">
             <td align="right">
             <select id="mce_id" name="mce_id">
-              <option value="">--select an equipment charge--
+              <option value="">--select a charge--
     <?php
             while($row = mysql_fetch_array($result))
             {
